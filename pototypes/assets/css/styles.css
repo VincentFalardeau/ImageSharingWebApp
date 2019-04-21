@@ -38,3 +38,7 @@
 .alert-choice:hover{
 	text-decoration: none;
 }
+.noscroll{
+	overflow: hidden;
+	
+}
