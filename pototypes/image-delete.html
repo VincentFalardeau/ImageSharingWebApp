@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Image details</title>
+    <title>Delete image</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
@@ -13,7 +13,7 @@
 </head>
 
 <body style="background-color: rgb(244,245,247);">
-    <div>
+    <div class="overlay">
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container"><a class="navbar-brand" href="main.html">Galerie d'images</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse"
@@ -60,6 +60,11 @@
                 </div>
             </div>
         </div>
+    </div>
+     <div class="popup">
+        Etes-vous certain de vouloir supprimer cette image?<br>
+        <a class = "alert-choice" href="main.html">oui</a>
+        <a class = "alert-choice" href="image-details.html">non</a>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
