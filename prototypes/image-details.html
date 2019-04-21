@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>View image</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="background-color: rgb(244,245,247);">
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+            <div class="container"><a class="navbar-brand" href="main.html">Galerie d'images</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse"
+                    id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="profile.html">Username Placeholder</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container" style="height: 293px;margin: 80px auto;">
+        <div class="row">
+            <div class="col" style="margin: 0px 0px;">
+                <div class="card shadow" style="width: 1100px;margin: auto;">
+                    <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
+                        <h4 class="card-title">Titre de l'image<!-- button class="btn btn-primary float-right btn-success" type="button">Add Image</button> --></h4>
+                        <hr>
+                        <div class="row" style="margin: 15px -15px;">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 473px;">
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Delete</a>
+                                        <a class="card-link" style="float: right; margin-right: 20px" href="image-edit.html">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col">
+                                <div class="card">
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <div style="width: 100%;height: 150px;"><b>Details</b>  <!--Ici, on genere un string dinfos en php--></div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <div style="width: 100%;height: 236.5px;"><b>Commentaires</b>
+                                            <div><!--chaque commentaire est generer sous forme dun span suivi dun bouton x et dun br, pour supprimer notre commentaire, on peut appuyer sur le x
+                                                on trouvera un systeme pour associer le commentaire au bouton-->
+                                                <span>Hey belle photo</span><button>x</button><br>
+                                                <span>Superbe!</span><button>x</button><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"><input type="text" class="form-control"></div>
+                                 <button class="btn btn-primary float-right" type="button" style="margin: 10px 0px 0px 0px;">Comment</button></div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
