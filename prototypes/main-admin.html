@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Galerie</title>
+    <title>Galerie (mode admin)</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
@@ -15,33 +15,39 @@
 <body style="background-color: rgb(244,245,247);">
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
-            <div class="container"><a class="navbar-brand" href="main-admin.html">Galerie d'images</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container">
+                <a class="navbar-brand" href="main-admin.html">Galerie d'images</a>
+                <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse"
                     id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="gestion-comptes.html">Gestion des comptes</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="profile.html">Username Placeholder</a></li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="admin-manage-account.html">Gestion des comptes</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="profile.html">*Nom d'utilisateur*</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
-    <div class="container" style="height: 293px;margin: 80px auto;">
+     <div class="container" style="height: 293px;margin: 80px auto;">
         <div class="row">
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 1100px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title">
                             Galerie
-                            <!-- <span style="width: 250px">
-                                <input type="text" class="form-control" style="width: 250px">
-                            </span> -->
                             <button class="btn btn-primary float-right" type="button">
-                                <a class="unstyled-link" href="image-add.html">Add Image</a>
+                                <a class="unstyled-link" href="image-add.html">Ajouter une image</a>
                             </button>
                             <button class="btn btn-primary float-right" type="button" style="margin-right: 20px">
-                                <a class="unstyled-link" href="main-admin.html">Search</a>
+                                <a class="unstyled-link" href="main-admin.html">Chercher</a>
                             </button>
                             <span class="float-right" style="margin-right: 20px">
                                 <input type="text" class="form-control" style="width: 250px">
@@ -53,10 +59,11 @@
                                 <!-- sera generer en php selon les images de la bd et le filtre -->
                                 <!-- edit et delete seront affiches seulement si l'usager est proprio ou si c'est l'admin -->
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">-Image title-</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Delete</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Edit</a>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
                                     </div>
                                 </div>
                             </div>
@@ -65,21 +72,24 @@
 
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">-Image title-</a>
-                                        <a class="card-link" style="float: right;" href="#">Delete</a>
-                                        <a class="card-link" style="float: right;" href="#">Edit</a>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;"><a class="card-link" href="#">Image title</a></div>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
+                                    </div>
                                 </div>
                             </div>
-
-
-
                         </div>
 
                         
@@ -87,28 +97,31 @@
                         <div class="row" style="margin: 15px -15px;">
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">-Image title-</a>
-                                        <a class="card-link" style="float: right;" href="#">Delete</a>
-                                        <a class="card-link" style="float: right;" href="#">Edit</a>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
-                                     <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">-Image title-</a>
-                                        <a class="card-link" style="float: right;" href="#">Delete</a>
-                                        <a class="card-link" style="float: right;" href="#">Edit</a>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">-Image title-</a>
-                                        <a class="card-link" style="float: right;" href="#">Delete</a>
-                                        <a class="card-link" style="float: right;" href="#">Edit</a>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
                                     </div>
                                 </div>
                             </div>
@@ -116,17 +129,32 @@
                         <div class="row" style="margin: 15px -15px;">
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;"><a class="card-link" href="#">Image title</a></div>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;"><a class="card-link" href="#">Image title</a></div>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 298px;"><a class="card-link" href="#">Image title</a></div>
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                        <img style="width: 100%;height: 298px;">
+                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
+                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
+                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
