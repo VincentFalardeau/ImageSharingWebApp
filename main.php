@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+
+<?php
+	// initialisation de la session
+	session_start();
+	$_SESSION["username"] = "Vincent";
+	$_SESSION["id"] = 1;
+?>
+
+
 <html>
 
 <head>
@@ -16,7 +25,7 @@
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container">
-                <a class="navbar-brand" href="main.html">Galerie d'images</a>
+                <a class="navbar-brand" href="main.php">Galerie d'images</a>
                 <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -26,7 +35,11 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="profile.html">*Nom d'utilisateur*</a>
+                            <a class="nav-link" href="profile.html">
+							<?php
+								echo $_SESSION["username"];
+							?>
+							</a>
                         </li>
                     </ul>
                 </div>
@@ -44,7 +57,7 @@
                                 <a class="unstyled-link" href="image-add.html">Ajouter une image</a>
                             </button>
                             <button class="btn btn-primary float-right" type="button" style="margin-right: 20px">
-                                <a class="unstyled-link" href="main.html">Chercher</a>
+                                <a class="unstyled-link" href="main.php">Chercher</a>
                             </button>
                             <span class="float-right" style="margin-right: 20px">
                                 <input type="text" class="form-control" style="width: 250px">
@@ -52,9 +65,24 @@
                         </h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px;">
-                            <div class="col">
-                                <!-- sera generer en php selon les images de la bd et le filtre -->
-                                <!-- edit et delete seront affiches seulement si l'usager est proprio ou si c'est l'admin -->
+							<?php
+								include "connexion.php";
+								$statement = $db->prepare("select idImage, idMember, titre from Images");
+								$statement->execute();
+								while($donnees = $statement->fetch()){
+									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
+									"<img style=\"width: 298px;height: 298px;\">" . 
+									"<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
+									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
+										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
+                                        "<a class=\"card-link\" style=\"float: right;\" href=\"image-edit.html\">Modifier</a>";
+									} 
+									echo "</div></div></div>";
+								}
+							?>
+                            <!--<div class="col">
+                                <!-- sera generer en php selon les images de la bd et le filtre
+                                <!-- edit et delete seront affiches seulement si l'usager est proprio ou si c'est l'admin
                                 <div class="card">
                                     <div class="card-body shadow-sm" style="padding: 10px;">
                                         <img style="width: 100%;height: 298px;">
@@ -63,11 +91,11 @@
                                         <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
 
 
-                            <div class="col">
+                            <!--<div class="col">
                                 <div class="card">
                                     <div class="card-body shadow-sm" style="padding: 10px;">
                                         <img style="width: 100%;height: 298px;">
@@ -91,7 +119,7 @@
 
                         
 
-                        <div class="row" style="margin: 15px -15px;">
+                         <div class="row" style="margin: 15px -15px;">
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body shadow-sm" style="padding: 10px;">
@@ -154,7 +182,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
 
 
