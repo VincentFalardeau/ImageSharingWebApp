@@ -4,9 +4,8 @@
 	// initialisation de la session
 	session_start();
 	$_SESSION["username"] = "Vincent";
-	$_SESSION["id"] = 1;
+	$_SESSION["id"] = 2;
 ?>
-
 
 <html>
 
@@ -35,10 +34,10 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="profile.html">
-							<?php
-								echo $_SESSION["username"];
-							?>
+                            <a class="nav-link" href="profile.php">
+							    <?php
+								    echo $_SESSION["username"];
+							    ?>
 							</a>
                         </li>
                     </ul>
@@ -56,136 +55,38 @@
                             <button class="btn btn-primary float-right" type="button">
                                 <a class="unstyled-link" href="image-add.html">Ajouter une image</a>
                             </button>
-                            <button class="btn btn-primary float-right" type="button" style="margin-right: 20px">
-                                <a class="unstyled-link" href="main.php">Chercher</a>
-                            </button>
-                            <span class="float-right" style="margin-right: 20px">
-                                <input type="text" class="form-control" style="width: 250px">
-                            </span>
+                            <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="main.php" method="post">
+                                <?php
+                                    if(!isset($_POST["keyword"])){
+                                        $_POST["keyword"] = "";
+                                    }
+                                    echo "<input type=\"text\" class=\"form-control\" name=\"keyword\" value=\"" . $_POST["keyword"] .
+                                    "\" style=\"width: 250px; float: left\">"
+                                ?>
+                                
+                                <input class="btn btn-primary float-right" type="submit" value="Chercher">
+                            </form>
                         </h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px;">
 							<?php
 								include "connexion.php";
-								$statement = $db->prepare("select idImage, idMember, titre from Images");
+								$statement = $db->prepare("select idImage, idMember, titre, description from Images");
 								$statement->execute();
 								while($donnees = $statement->fetch()){
-									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
-									"<img style=\"width: 298px;height: 298px;\">" . 
-									"<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
-									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
-										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
-                                        "<a class=\"card-link\" style=\"float: right;\" href=\"image-edit.html\">Modifier</a>";
-									} 
-									echo "</div></div></div>";
+                                    if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
+    									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
+    									"<img style=\"width: 298px;height: 298px;\">" . 
+    									"<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
+    									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
+    										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
+                                            "<a class=\"card-link\" style=\"float: right;\" href=\"image-edit.html\">Modifier</a>";
+    									} 
+                                        echo "<div>" . $donnees[3] . "</div>";
+    									echo "</div></div></div>";
+                                    }
 								}
 							?>
-                            <!--<div class="col">
-                                <!-- sera generer en php selon les images de la bd et le filtre
-                                <!-- edit et delete seront affiches seulement si l'usager est proprio ou si c'est l'admin
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>-->
-
-
-
-                            <!--<div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-
-                         <div class="row" style="margin: 15px -15px;">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin: 15px -15px;">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <img style="width: 100%;height: 298px;">
-                                        <a class="card-link" href="image-details.html">*Titre de l'image*</a>
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right;" href="image-edit.html">Modifier</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
-
                     </div>
                 </div>
             </div>
