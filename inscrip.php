@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -42,7 +41,19 @@
                         <form action="./inscrip.php" method="post">
 							<div class="form-group">
 								<label class="form-control-label" style="width: 100%;font-size: 16px;">Nom d'utilisateur</label>
-								<?php if(isset($_POST['username'])) echo "<input type=\"text\" class=\"form-control\" name=\"username\" value=\"" . $_POST['username'] . "\">";
+								<?php 
+									if(isset($_POST['username']) && $_POST['username'] != "") {
+										include "connexion.php";
+										$stm = $db->prepare("select idMember from Members where alias = ?");
+										$stm->bindParam(1, $param_username);
+										$param_username=$_POST['username'];
+										$stm->execute();
+										$id = $stm->fetch();
+										echo "<input type=\"text\" class=\"form-control\" name=\"username\" value=\"" . $_POST['username'] . "\">";
+										if($id[0] !== null){
+											echo "<strong style=\"color: red;\">Ce nom d'utilisateur existe deja</strong><br>";
+										}
+									}
 									else{
 										echo "<input type=\"text\" class=\"form-control\" name=\"username\">";
 									}
@@ -51,26 +62,35 @@
 							</div>
 							<div class="form-group">
 								<label class="form-control-label" style="width: 100%;font-size: 16px;">Courriel</label>
-								<?php if(isset($_POST['email'])) echo "<input type=\"email\" class=\"form-control\" name=\"email\" value=\"" . $_POST['email'] . "\">";
+								<?php if(isset($_POST['email']) && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) !== false) echo "<input type=\"email\" class=\"form-control\" name=\"email\" value=\"" . $_POST['email'] . "\">";
 									else{
 										echo "<input type=\"email\" class=\"form-control\" name=\"email\">";
 									}
-									if(isset($_POST['email']) && $_POST['email'] == "") echo "<strong style=\"color: red;\">Veuillez entrer un courriel</strong><br>";
+									if(isset($_POST['email']) && $_POST['email'] == "") echo "<strong style=\"color: red;\">Veuillez entrer votre courriel</strong><br>";
+									else if(isset($_POST['email']) && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) === false) echo "<strong style=\"color: red;\">Le courriel est de format invalide</strong><br>";
 								?>
 							</div>
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
 										<label class="form-control-label" style="width: 100%;font-size: 16px;">Prénom</label>
-										<input type="text" class="form-control" name="firstname">
-										<?php if(isset($_POST['firstname']) && $_POST['firstname'] == "") echo "<strong style=\"color: red;\">Veuillez entrer un prénom</strong><br>";?>
+										<?php if(isset($_POST['firstname'])) echo "<input type=\"firstname\" class=\"form-control\" name=\"firstname\" value=\"" . $_POST['firstname'] . "\">";
+											else{
+												echo "<input type=\"text\" class=\"form-control\" name=\"firstname\">";
+											}
+											if(isset($_POST['firstname']) && $_POST['firstname'] == "") echo "<strong style=\"color: red;\">Veuillez entrer votre prénom</strong><br>";
+										?>
 									</div>
 								</div>
 								<div class="col">
 									<div class="form-group">
 										<label class="form-control-label" style="width: 100%;font-size: 16px;">Nom</label>
-										<input type="text" class="form-control" name="lastname">
-										<?php if(isset($_POST['lastname']) && $_POST['lastname'] == "") echo "<strong style=\"color: red;\">Veuillez entrer un nom</strong><br>";?>
+										<?php if(isset($_POST['lastname'])) echo "<input type=\"lastname\" class=\"form-control\" name=\"lastname\" value=\"" . $_POST['lastname'] . "\">";
+											else{
+												echo "<input type=\"text\" class=\"form-control\" name=\"lastname\">";
+											}
+											if(isset($_POST['lastname']) && $_POST['lastname'] == "") echo "<strong style=\"color: red;\">Veuillez entrer votre nom</strong><br>";
+										?>
 									</div>
 								</div>
 							</div>
@@ -79,8 +99,12 @@
 								<label class="form-control-label" style="width: 100%;font-size: 16px;margin: 10px 0px;">
 									Mot de passe
 								</label>
-								<input type="password" class="form-control" name="password">
-								<?php if(isset($_POST['password']) && $_POST['password'] == "") echo "<strong style=\"color: red;\">Veuillez entrer un mot de passe</strong><br>";?>
+								<?php if(isset($_POST['password'])) echo "<input type=\"password\" class=\"form-control\" name=\"password\" value=\"" . $_POST['password'] . "\">";
+									else{
+										echo "<input type=\"password\" class=\"form-control\" name=\"password\">";
+									}
+									if(isset($_POST['password']) && $_POST['password'] == "") echo "<strong style=\"color: red;\">Veuillez entrer un mot de passe</strong><br>";
+								?>
 							</div>
 							<div class="form-group">
 								<label class="form-control-label" style="width: 100%;font-size: 16px;">
@@ -92,15 +116,9 @@
 							<?php
 								include "connexion.php";
 								if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email'])
-									&& $_POST['username'] !== '' && $_POST['password'] !== '' && $_POST['firstname'] !== '' && $_POST['lastname'] !== '' && $_POST['email'] !== ''){
-									$stm = $db->prepare("CALL Authentification(?, ?)");
-									$stm->bindParam(1, $param_username);
-									$stm->bindParam(2, $param_password);
-									$param_username=$_POST['username'];
-									$param_password=$_POST['password'];
-									$stm->execute();
-									$id = $stm->fetch();
-									if($id[0] === "0"){
+									&& $_POST['username'] !== '' && $_POST['password'] !== '' && $_POST['firstname'] !== '' && $_POST['lastname'] !== '' && $_POST['email'] !== ''
+									&& $_POST['passwordconfirmation'] === $_POST['password']){
+									if($id[0] === null){
 										$stm = $db->prepare("insert into Members values(null, ?, ?, ?, ?, ?, 0)");
 										$stm->bindParam(1, $param_username);
 										$stm->bindParam(2, $param_password);
@@ -113,15 +131,13 @@
 										$param_lastName=$_POST['lastname'];
 										$param_email=$_POST['email'];
 										$stm->execute();
+										$id[0] = $db->lastInsertId();
 										
 										session_start();
 										$_SESSION['username'] = $_POST['username'];
 										$_SESSION['id'] = $id[0];
 										header('Location: index.php');
 									} 
-									else{
-										echo "<br><strong style=\"color: red;\">Ce nom d'utilisateur existe deja</strong><br>";
-									}
 								}
 							?>
                         <button class="btn btn-primary float-right" type="submit" style="margin: 10px 0px 0px 0px;">

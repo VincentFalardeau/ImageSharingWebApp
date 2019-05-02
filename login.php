@@ -51,14 +51,15 @@
 							<?php
 								include "connexion.php";
 								if(isset($_POST['username']) && isset($_POST['password'])){
-									$stm = $db->prepare("CALL Authentification(?, ?)");
+									include "connexion.php";
+									$stm = $db->prepare("select idMember from Members where alias = ? and password = ?");
 									$stm->bindParam(1, $param_username);
 									$stm->bindParam(2, $param_password);
 									$param_username=$_POST['username'];
 									$param_password=$_POST['password'];
 									$stm->execute();
 									$id = $stm->fetch();
-									if($id[0] !== "0"){
+									if($id[0] !== null){
 										session_start();
 										$_SESSION['username'] = $_POST['username'];
 										$_SESSION['id'] = $id[0];

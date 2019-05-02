@@ -32,20 +32,26 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="profile.php">
 							    <?php
 								if(isset( $_SESSION["username"])){
 									echo "<a class=\"nav-link\" href=\"profile.php\">";
-									echo $_SESSION["username"];
+									echo $_SESSION["username"] . "</a>";
 								}
 								else{
 									echo "<a class=\"nav-link\" href=\"login.php\">";
-									echo "Connexion";
+									echo "Connexion" . "</a>";
 								}
 								    
 							    ?>
-							</a>
                         </li>
+						<?php
+						if(isset( $_SESSION["username"])){
+							echo "<li class=\"nav-item\" role=\"presentation\">
+									<a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>
+									</li>";
+						}
+
+						?>
                     </ul>
                 </div>
             </div>
