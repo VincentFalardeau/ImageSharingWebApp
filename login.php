@@ -16,7 +16,7 @@
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container">
-                <a class="navbar-brand" href="#">Galerie d'images</a>
+                <a class="navbar-brand" href="index.php">Galerie d'images</a>
                 <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
