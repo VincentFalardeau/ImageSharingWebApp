@@ -64,7 +64,6 @@
                                 else{
                                     echo "<strong style=\"color: red;\">Le courriel est de format invalide</strong><br><br>";
                                 }
-                                
                             }
 
                             $statement = $db->prepare("select * from Members where idMember = ?");
