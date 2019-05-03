@@ -64,10 +64,10 @@
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title">
                             Galerie
-                            <button class="btn btn-primary float-right" type="button">
-                                <a class="unstyled-link" href="image-add.html">Ajouter une image</a>
-                            </button>
-                            <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="main.php" method="post">
+							<form action="image-add.html" method="post" style="height: 40px; float: right; margin-right: 20px;">
+                                <input class="btn btn-primary float-right" type="submit" value="Ajouter une image">
+                            </form>
+                            <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="index.php" method="post">
                                 <?php
                                     if(!isset($_POST["keyword"])){
                                         $_POST["keyword"] = "";
@@ -75,7 +75,6 @@
                                     echo "<input type=\"text\" class=\"form-control\" name=\"keyword\" value=\"" . $_POST["keyword"] .
                                     "\" style=\"width: 250px; float: left\">"
                                 ?>
-                                
                                 <input class="btn btn-primary float-right" type="submit" value="Chercher">
                             </form>
                         </h4>
