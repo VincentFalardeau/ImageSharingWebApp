@@ -132,7 +132,7 @@
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link unstyled-link" href="profile.php">Oui</a>
+                            <a class="nav-link unstyled-link" href="profile-delete-process.php">Oui</a>
                         </li>
 						<li class="nav-itemt" role="presentation">
                             <a class="nav-link unstyled-link" href="profile.php">Non</a>

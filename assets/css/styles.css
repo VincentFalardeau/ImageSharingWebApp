@@ -23,6 +23,7 @@
 
 .unstyled-link{
   	text-decoration: none;
+	font-weight: bold;
   	color: white !important;
 }
 
