@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<?php
+	// initialisation de la session
+	session_start();
+?>
+
 <html>
 
 <head>
@@ -26,7 +31,7 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="profile.html">*Nom d'utilisateur*</a>
+                            <a class="nav-link" href="profile.html"><? $_SESSION['username'] ?></a>
                         </li>
                     </ul>
                 </div>
@@ -38,24 +43,27 @@
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 420px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px;">
-                        <div class="form-group">
-                            <label class="form-control-label" style="width: 100%;font-size: 16px;">Titre</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="card">
-                            <div class="card-body shadow-sm" style="padding: 10px;">
-                                <img style="width: 100%;height: 298px;">
+                        <form >
+
+                            <div class="form-group">
+                                <label class="form-control-label" style="width: 100%;font-size: 16px;">Titre</label>
+                                <input type="text" class="form-control" name="ImageTitle">
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <label class="form-control-label" style="width: 100%;font-size: 16px;">Description</label>
-                            <textarea type="text" class="form-control"></textarea>
-                        </div>
-                       
-                        <button class="btn btn-primary float-right" type="button" style="margin: 10px 0px 0px 0px;">
-                            <a href="main.html" class="unstyled-link">Ajouter l'image</a>
-                        </button>
+                            <div class="card">
+                                <div class="card-body shadow-sm" style="padding: 10px;">
+                                    <img style="width: 100%;height: 298px;" >
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label class="form-control-label" style="width: 100%;font-size: 16px;">Description</label>
+                                <textarea type="text" class="form-control" name="ImageDescription"></textarea>
+                            </div>
+                        
+                            <button class="btn btn-primary float-right" type="button" style="margin: 10px 0px 0px 0px;">
+                                <a href="main.html" class="unstyled-link">Ajouter l'image</a>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

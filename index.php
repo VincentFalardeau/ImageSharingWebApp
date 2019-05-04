@@ -2,7 +2,8 @@
 
 <?php
 	// initialisation de la session
-	session_start();
+    session_start();
+    
 ?>
 
 <html>
@@ -51,7 +52,10 @@
             </div>
         </nav>
     </div>
+
     <div class="container" style="height: 293px;margin: 80px auto;">
+
+    
         <div class="row">
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 1100px;margin: auto;">
@@ -59,9 +63,9 @@
                         <h4 class="card-title">
                             Galerie
                             <button class="btn btn-primary float-right" type="button">
-                                <a class="unstyled-link" href="image-add.html">Ajouter une image</a>
+                                <a class="unstyled-link" href="image-add.php">Ajouter une image</a>
                             </button>
-                            <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="main.php" method="post">
+                            <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="index.php" method="post">
                                 <?php
                                     if(!isset($_POST["keyword"])){
                                         $_POST["keyword"] = "";
@@ -82,8 +86,10 @@
 								while($donnees = $statement->fetch()){
                                     if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
     									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
-    									"<img style=\"width: 298px;height: 298px;\">" . 
-    									"<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
+                                        "<a href='./image-details.php?id=". $donnees[0] ."'>".
+                                        "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $donnees[0] . ".png'  >" . 
+                                        "</a>".
+                                        "<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
     									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
     										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
                                             "<a class=\"card-link\" style=\"float: right;\" href=\"image-edit.html\">Modifier</a>";
@@ -92,7 +98,34 @@
     									echo "</div></div></div>";
                                     }
 								}
-							?>
+                            ?>
+                              <div class="col-4">
+                                <div class="card mt-2">
+                                    <div class="card-body shadow-sm">
+                                    <h4 class="card-title">
+                                        Ajouter une image
+                                        </h4>
+                                    <form action="./image_upload.php" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                            <label >Titre</label>
+                                                <input type="text" class="form-control" name="ImageTitle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label >Image</label>
+                                                <input type="file" class="form-control-file" name="ImageFile">
+                                            </div>
+                                            <div class="form-group">
+                                            <label >Description</label></br>
+                                               <textarea class="form-control" row=3 name="ImageDescription"></textarea>
+                                            </div>
+                                            <button class="btn btn-primary btn-small float-right" type="submit">Ajouter</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
                     </div>
                 </div>
             </div>

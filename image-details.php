@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html>
 
+<?php 
+if(isset($_GET['id'])) {
+
+    $ImageTitle = null;
+    $ImageDescription = null;
+    $ImageUrl = null;
+    $MemberAlias = null;
+    $MemberFirstname = null;
+    $MemberLastname = null;
+    include "connexion.php";
+    $statement = $db->prepare("select titre, description, url, alias, firstname, lastname from Images I Inner Join Members M ON I.idMember = M.idMember WHERE idImage = ?");
+
+    $statement->bindParam(1, $_GET['id']);
+
+    $statement->execute();
+    while($donnees = $statement->fetch()){
+        $ImageTitle = $donnees[0];
+        $ImageDescription = $donnees[1];
+        $ImageUrl = $donnees[2];
+        $MemberAlias = $donnees[3];
+        $MemberFirstname = $donnees[4];
+        $MemberLastname = $donnees[5];
+    }
+    
+}
+?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>*Titre de l'image*</title>
+    <title><?php echo $ImageTitle ?></title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
@@ -38,12 +65,18 @@
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 1100px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
-                        <h4 class="card-title">*Titre de l'image*</h4>
+                        <h4 class="card-title"><?php echo $ImageTitle ?></h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px;">
                             <div class="col">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;"><img style="width: 100%;height: 473px;">
+                                    <div class="card-body shadow-sm" style="padding: 10px;">
+                                    <?php 
+                                    if(isset($_GET['id'])) {
+                                         echo  '<img style="width: 100%;height: 473px;" src="./fichiers/' . $_GET['id'] . '.png">';
+                                       
+                                        }?>
+                                    
                                         <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
                                         <a class="card-link" style="float: right; margin-right: 20px" href="image-edit.html">
                                             Modifier
@@ -56,10 +89,11 @@
                                     <div class="card-body shadow-sm" style="padding: 10px;">
                                         <div style="width: 100%;height: 150px;"><b>Informations</b><br>
                                             <!--Ici, on genere un string dinfos en php-->
-                                            *Nom de l'utilisateur*<br>
-                                            *Prenom* *Nom*<br>
+                                            Member username: <?php echo $MemberAlias ?><br>
+                                            Member name: <?php echo $MemberFirstname . " " . $MemberLastname ?><br>
                                             <br>
-                                            *Description*
+                                            Image description: <br>
+                                            <?php echo $ImageDescription ?>
 
 
                                         </div>

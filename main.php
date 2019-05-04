@@ -75,7 +75,7 @@
 								$statement->execute();
 								while($donnees = $statement->fetch()){
                                     if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
-    									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
+    									echo "<div class=\"col-4\">" . "<div class=\"card mt-2\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
     									"<img style=\"width: 298px;height: 298px;\">" . 
     									"<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
     									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
@@ -86,7 +86,8 @@
     									echo "</div></div></div>";
                                     }
 								}
-							?>
+                            ?>
+                          
                     </div>
                 </div>
             </div>
