@@ -26,7 +26,7 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation"></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="subscribe.php">S'inscrire</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="inscrip.php">S'inscrire</a></li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px;">
                         <h4 class="card-title">Connexion</h4>
                         <hr>
-                        <form action="./login_process.php" method="post">
+                        <form action="./login.php" method="post">
                             <div class="form-group">
                                 <label class="form-control-label" style="width: 100%;font-size: 16px;">Nom d'utilisateur</label>
                                 <input type="text" class="form-control" name="username">
@@ -48,12 +48,30 @@
                                 <label class="form-control-label" style="width: 100%;font-size: 16px;">Mot de passe</label>
                                 <input class="form-control" name="password" type="password">
                             </div>
-                            <?php
-                            if(isset($_GET['error'])) {
-                                if($_GET['error'] == true)
-                                    echo '<span style="color: red"> Username and password are invalid</span>';
-                            }
-                            ?>
+							<?php
+								include "connexion.php";
+								if(isset($_POST['username']) && isset($_POST['password'])){
+									include "connexion.php";
+									$stm = $db->prepare("select idMember from Members where alias = ? and password = ?");
+									$stm->bindParam(1, $param_username);
+									$stm->bindParam(2, $param_password);
+									$param_username=$_POST['username'];
+									$param_password=$_POST['password'];
+									$stm->execute();
+									$id = $stm->fetch();
+									if($id[0] !== null){
+										session_start();
+										$_SESSION['username'] = $_POST['username'];
+										$_SESSION['id'] = $id[0];
+										$location = "index.php";
+										header('Location: ' . $location);
+										echo $id[0];
+									} 
+									else{
+										echo "<br><strong style=\"color: red;\">Nom d'utilisateur et/ou mot de passe invalide</strong><br>";
+									}
+								}
+							?>
                             <button class="btn btn-primary float-right" style="margin: 10px 0px 0px 0px;" type="submit">
                                 Se connecter
                             </button>

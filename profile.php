@@ -3,8 +3,6 @@
 <?php
     // initialisation de la session
     session_start();
-    $_SESSION["username"] = "Vincent";
-    $_SESSION["id"] = 2;
 ?>
 
 <html>
@@ -24,7 +22,7 @@
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container">
-                <a class="navbar-brand" href="main.php">Galerie d'images</a>
+                <a class="navbar-brand" href="index.php">Galerie d'images</a>
                 <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +33,10 @@
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="profile-delete.html">Supprimer mon compte</a>
+                            <a class="nav-link" href="profile-delete.php">Supprimer mon compte</a>
+                        </li>
+						<li class="nav-item" role="presentation">
+                            <a class="nav-link" href="logout.php">Déconnexion</a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +53,7 @@
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px; text-align: center;">
                         <?php
                             include "connexion.php";
-                            if(isset($_POST["email"])){
+                            if(isset($_POST["email"]) && $_POST["email"] !== ""){
                                 if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) !== false){
                                     $statement = $db->prepare("update Members set email = ? where idMember = ?");
                                     $statement->bindParam(1, $_email);
@@ -60,11 +61,26 @@
                                     $_email = $_POST["email"];
                                     $_idMember = $_SESSION["id"];
                                     $statement->execute();
+									echo "<strong style=\"color: green;\">Courriel changé avec succès</strong><br><br>";
                                 }
                                 else{
                                     echo "<strong style=\"color: red;\">Le courriel est de format invalide</strong><br><br>";
                                 }
-                                
+                            }
+							
+							if(isset($_POST["password"]) && $_POST["password"] !== ""){
+								if($_POST["password"] !== $_POST["confirm-password"]){
+									echo "<strong style=\"color: red;\">La confirmation ne correspond pas au mot de passe</strong><br><br>";
+								}
+								else{
+                                    $statement = $db->prepare("update Members set password = ? where idMember = ?");
+                                    $statement->bindParam(1, $_password);
+                                    $statement->bindParam(2, $_idMember);
+                                    $_password = $_POST["password"];
+                                    $_idMember = $_SESSION["id"];
+                                    $statement->execute();
+									echo "<strong style=\"color: green;\">Mot de passe changé avec succès</strong><br><br>";
+                                }
                             }
 
                             $statement = $db->prepare("select * from Members where idMember = ?");
@@ -91,36 +107,11 @@
                         <div class="row" style="margin: 15px -15px;">
                             Mot de passe<br>
                             <form  style="border: solid 1px lightgrey; padding: 10px;"  action="profile.php" method="post">
-                                <input type="text" class="form-control" name="password" style="width: 250px; float: left; margin-right: 15px;" placeholder="Nouveau mot de passe">
-
-                                <input type="text" class="form-control" name="confirm-password" style="width: 250px; float: left; margin-right: 15px;"placeholder="Confirmation">
+                                <input type="password" class="form-control" name="password" style="width: 250px; float: left; margin-right: 15px;" placeholder="Nouveau mot de passe">
+                                <input type="password" class="form-control" name="confirm-password" style="width: 250px; float: left; margin-right: 15px;"placeholder="Confirmation">
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>
                         </div>
-                        <!-- <div class="row" style="margin: 15px -15px;">
-                            <div class="form-group">
-                                <label class="form-control-label" style="width: 100%;font-size: 16px;">Courriel</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row" style="margin: 15px -15px;">
-
-                        </div>
-                        <div class="row" style="margin: 15px -15px;">
-                             <div class="form-group" style="margin: 0px 0px 8px;">
-                                <hr style="margin: 8px;">
-                                <label class="form-control-label" style="width: 100%;font-size: 16px;margin: 10px 0px;">
-                                Nouveau mot de passe
-                                </label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-control-label" style="width: 100%;font-size: 16px;">
-                                Confirmation du nouveau mot de passe
-                                </label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div> -->
                     </div>
                 </div>
 
