@@ -44,7 +44,7 @@
 								<?php 
 									if(isset($_POST['username']) && $_POST['username'] != "") {
 										include "connexion.php";
-										$stm = $db->prepare("select idMember from Members where alias = ?");
+										$stm = $db->prepare("call getMemberByAlias(?)");
 										$stm->bindParam(1, $param_username);
 										$param_username=$_POST['username'];
 										$stm->execute();

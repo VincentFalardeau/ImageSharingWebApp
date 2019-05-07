@@ -86,7 +86,7 @@
                         <div class="row" style="margin: 15px -15px;">
 							<?php
 								include "connexion.php";
-								$statement = $db->prepare("select idImage, idMember, titre, description from Images");
+								$statement = $db->prepare("call listAllImages()");
 								$statement->execute();
 								while($donnees = $statement->fetch()){
                                     if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
