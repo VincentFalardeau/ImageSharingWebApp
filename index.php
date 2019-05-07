@@ -96,7 +96,7 @@
                                         "</a>".
                                         "<span class=\"card-link\">" . $donnees[2] . "</span>";
     									 if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
-    										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
+    										echo "<a class=\"card-link\" style=\"float: right;\" href='./image-delete.php?id=". $donnees[0] . "'>Supprimer</a>" .
                                             "<a class=\"card-link\" style=\"float: right;\" href='./image-edit.php?id=". $donnees[0] ."'>Modifier</a>";
     									} 
 
