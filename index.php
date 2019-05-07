@@ -68,9 +68,9 @@
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title">
                             Galerie
-                            <button class="btn btn-primary float-right" type="button">
-                                <a class="unstyled-link" href="image-add.php">Ajouter une image</a>
-                            </button>
+                            <form style="height: 40px; float: right; margin-right: 20px;" action="image-add.php" method="post">
+                                <input class="btn btn-primary float-right" type="submit" value="Ajouter une image">
+                            </form>
                             <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="index.php" method="post">
                                 <?php
                                     if(!isset($_POST["keyword"])){
@@ -94,11 +94,12 @@
                                         "<a href='./image-details.php?id=". $donnees[0] ."'>".
                                         "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $donnees[0] . ".png'  >" . 
                                         "</a>".
-                                        "<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
-    									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
+                                        "<span class=\"card-link\">" . $donnees[2] . "</span>";
+    									 if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
     										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
-                                            "<a class=\"card-link\" style=\"float: right;\" href=\"image-edit.html\">Modifier</a>";
+                                            "<a class=\"card-link\" style=\"float: right;\" href='./image-edit.php?id=". $donnees[0] ."'>Modifier</a>";
     									} 
+
                                         echo "<div>" . $donnees[3] . "</div>";
     									echo "</div></div></div>";
                                     }
