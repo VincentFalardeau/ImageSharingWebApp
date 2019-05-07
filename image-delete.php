@@ -2,7 +2,27 @@
 <html>
 
 <?php 
+session_start();
+
+if(isset($_POST['delete-id'])){
+
+    include "connexion.php";
+
+    $_POST['delete-id'] = $_SESSION['img-id'];
+
+    $statement = $db->prepare("delete from Images where idImage = ?");
+
+    $statement->bindParam(1, $_POST['delete-id']);
+
+    $statement->execute();
+
+    header('Location: index.php');
+}
+
+
 if(isset($_GET['id'])) {
+
+    $_SESSION['img-id'] = $_GET['id'];
 
     $ImageTitle = null;
     $ImageDescription = null;
@@ -135,9 +155,11 @@ if(isset($_GET['id'])) {
                     <li class="nav-item" role="presentation"></li>
                     <li class="nav-item" role="presentation"></li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link unstyled-link" href="index.php">Oui</a>
+                        <form action="image-delete.php" method="post" >
+                            <input class="nav-link unstyled-link" type="submit" name="delete-id" value="Oui">
+                        </form>
                     </li>
-                    <li class="nav-itemt" role="presentation">
+                    <li class="nav-item" role="presentation">
                         <a class="nav-link unstyled-link" href="index.php">Non</a>
                     </li>
                 </ul>
