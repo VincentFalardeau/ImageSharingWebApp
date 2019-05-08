@@ -52,7 +52,7 @@
 								include "connexion.php";
 								if(isset($_POST['username']) && isset($_POST['password'])){
 									include "connexion.php";
-									$stm = $db->prepare("select idMember, firstName, lastName from Members where alias = ? and password = ?");
+									$stm = $db->prepare("call getMember(?, ?)");
 									$stm->bindParam(1, $param_username);
 									$stm->bindParam(2, $param_password);
 									$param_username=$_POST['username'];
@@ -83,6 +83,7 @@
                 </div>
             </div>
         </div>
+        <?php include "footer.php";?>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

@@ -68,9 +68,9 @@
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title">
                             Galerie
-                            <button class="btn btn-primary float-right" type="button">
-                                <a class="unstyled-link" href="image-add.php">Ajouter une image</a>
-                            </button>
+                            <form style="height: 40px; float: right; margin-right: 20px;" action="image-add.php" method="post">
+                                <input class="btn btn-primary float-right" type="submit" value="Ajouter une image">
+                            </form>
                             <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="index.php" method="post">
                                 <?php
                                     if(!isset($_POST["keyword"])){
@@ -86,7 +86,7 @@
                         <div class="row" style="margin: 15px -15px;">
 							<?php
 								include "connexion.php";
-								$statement = $db->prepare("select idImage, idMember, titre, description from Images");
+								$statement = $db->prepare("call listAllImages()");
 								$statement->execute();
 								while($donnees = $statement->fetch()){
                                     if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
@@ -94,11 +94,12 @@
                                         "<a href='./image-details.php?id=". $donnees[0] ."'>".
                                         "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $donnees[0] . ".png'  >" . 
                                         "</a>".
-                                        "<a class=\"card-link\" href=\"image-details.html\">" . $donnees[2] . "</a>";
-    									 if(isset($_SESSION["id"]) && (string)$_SESSION["id"] == (string)$donnees[1]){
-    										echo "<a class=\"card-link\" style=\"float: right;\" href=\"image-delete.html\">Supprimer</a>" .
-                                            "<a class=\"card-link\" style=\"float: right;\" href=\"image-edit.html\">Modifier</a>";
+                                        "<span class=\"card-link\">" . $donnees[2] . "</span>";
+    									 if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
+    										echo "<a class=\"card-link\" style=\"float: right;\" href='./image-delete.php?id=". $donnees[0] . "'>Supprimer</a>" .
+                                            "<a class=\"card-link\" style=\"float: right;\" href='./image-edit.php?id=". $donnees[0] ."'>Modifier</a>";
     									} 
+
                                         echo "<div>" . $donnees[3] . "</div>";
     									echo "</div></div></div>";
                                     }
@@ -128,13 +129,12 @@
                                     </form>
                                     </div>
                                 </div>
-
-
                             </div>
                     </div>
                 </div>
             </div>
         </div>
+        <?php include "footer.php";?>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

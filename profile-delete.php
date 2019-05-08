@@ -120,27 +120,27 @@
 		</div>
 	</div>
 	<nav class="navbar navbar-light navbar-expand-md navigation-clean popup">
-            <div class="container">
-                <span class="navbar-brand white-hover">Êtes-vous certain de vouloir supprimer votre compte?</span>
-                <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse"
-                    id="navcol-1">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item" role="presentation"></li>
-                        <li class="nav-item" role="presentation"></li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link unstyled-link" href="profile-delete-process.php">Oui</a>
-                        </li>
-						<li class="nav-itemt" role="presentation">
-                            <a class="nav-link unstyled-link" href="profile.php">Non</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="container">
+            <span class="navbar-brand white-hover">Êtes-vous certain de vouloir supprimer votre compte?</span>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"></li>
+                    <li class="nav-item" role="presentation"></li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link unstyled-link" href="profile-delete-process.php">Oui</a>
+                    </li>
+					<li class="nav-itemt" role="presentation">
+                        <a class="nav-link unstyled-link" href="profile.php">Non</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
