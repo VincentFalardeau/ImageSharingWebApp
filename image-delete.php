@@ -9,11 +9,12 @@ if(isset($_POST['delete-id'])){
     include "connexion.php";
 
     $_POST['delete-id'] = $_SESSION['img-id'];
-
     $statement = $db->prepare("delete from Images where idImage = ?");
-
     $statement->bindParam(1, $_POST['delete-id']);
+    $statement->execute();
 
+    $statement = $db->prepare("delete from Comments where idImage = ?");
+    $statement->bindParam(1, $_POST['delete-id']);
     $statement->execute();
 
     header('Location: index.php');
