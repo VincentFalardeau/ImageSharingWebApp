@@ -41,8 +41,7 @@
 								else{
 									echo "<a class=\"nav-link\" href=\"login.php\">";
 									echo "Connexion" . "</a>";
-								}
-								    
+								}		    
 							    ?>
                         </li>
 						<?php
@@ -51,7 +50,6 @@
 									<a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>
 									</li>";
 						}
-
 						?>
                     </ul>
                 </div>
@@ -91,7 +89,7 @@
 								while($donnees = $statement->fetch()){
                                     if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
     									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
-                                        "<a href='./image-details.php?id=". $donnees[0] ."'>".
+                                        "<a href='./gestimage.php?id=". $donnees[0] ."'>".
                                         "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $donnees[0] . ".png'  >" . 
                                         "</a>".
                                         "<span class=\"card-link\">" . $donnees[2] . "</span>";
@@ -105,7 +103,8 @@
                                     }
 								}
                             ?>
-                              <div class="col-4">
+                            <?php  if(isset($_SESSION["id"])) : ?>
+                            <div class="col-4">
                                 <div class="card mt-2">
                                     <div class="card-body shadow-sm">
                                     <h4 class="card-title">
@@ -130,6 +129,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php endif;?> 
                     </div>
                 </div>
             </div>

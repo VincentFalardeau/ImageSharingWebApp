@@ -78,6 +78,13 @@ if(isset($_GET['id'])) {
                             }
                            ?>
                         </li>
+                        <?php
+                        if(isset( $_SESSION["username"])){
+                            echo "<li class=\"nav-item\" role=\"presentation\">
+                                    <a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>
+                                    </li>";
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -99,12 +106,11 @@ if(isset($_GET['id'])) {
                                         echo '<div class="img-holder">';
                                          echo  '<img src="./fichiers/' . $_GET['id'] . '.png">';
                                         echo '</div>';
-                                        }?>
-                                    
-                                        <a class="card-link" style="float: right;" href="image-delete.html">Supprimer</a>
-                                        <a class="card-link" style="float: right; margin-right: 20px" href="image-edit.html">
-                                            Modifier
-                                        </a>
+                                        if(isset($_SESSION['id']) && $_SESSION['username'] === $MemberAlias){
+                                            echo "<a class=\"card-link\" style=\"float: right;\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
+                                            echo "<a class=\"card-link\" style=\"float: right; margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . "'>Modifier</a>";
+                                        }
+                                    }?>
                                     </div>
                                 </div>
                               
@@ -174,6 +180,7 @@ if(isset($_GET['id'])) {
                 </div>
             </div>
         </div>
+         <?php include "footer.php";?>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
