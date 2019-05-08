@@ -39,10 +39,6 @@ if(isset($_GET['id'])) {
         $MemberFirstname = $donnees[4];
         $MemberLastname = $donnees[5];
     }
-
-   
- 
-    
 }
 ?>
 
@@ -192,7 +188,7 @@ if(isset($_GET['id'])) {
 
 deleteComment = function(id) {
     if(id != null && id != undefined) {
-        $.post( "comment_delete.php", { commentid: id})
+        $.post( "comment-delete-process.php", { commentid: id})
         .done(function( data ) {
             $('#c-' + id).remove();           
         });
@@ -204,7 +200,7 @@ addNewComment = function() {
     var new_comment = $('#newcomment').val();
     
     if(new_comment != "" && new_comment != undefined) {
-        $.post( "comment_add.php", { comment: new_comment, image: <?php echo $_GET['id']?> })
+        $.post( "comment-add-process.php", { comment: new_comment, image: <?php echo $_GET['id']?> })
         .done(function( data ) {
             var container = $('#container-comments');
             container.prepend('<div class="card car-body shadow p-2 my-2"><span id="' + data + '"><span class="text-muted"> <?php echo date('j F Y', time()) ?> </span><br> <div class="py-2">' + new_comment + '</div></span><hr><div> <?php echo $_SESSION['firstName'] . ' ' . $_SESSION['lastName'] ?> <button class="btn btn-danger" style="width: 80px; float: right" onclick="deleteComment(' + data + ')"> <span style="color: white">delete</span></button><br></div></div>');

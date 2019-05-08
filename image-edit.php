@@ -4,53 +4,15 @@
 session_start();
 
 include "connexion.php";
-if(isset($_POST["titre"]) && $_POST["titre"] !== ""){
-    $statement = $db->prepare("update Images set titre = ? where idMember = ?");
-    $statement->bindParam(1, $_titre);
-    $statement->bindParam(2, $_idMember);
-    $_titre = $_POST["titre"];
-    $_idMember = $_SESSION["id"];
-    $statement->execute();
-}
 
-if(isset($_POST["description"]) && $_POST["description"] !== ""){
-    $statement = $db->prepare("update Images set description = ? where idMember = ?");
-    $statement->bindParam(1, $_description);
-    $statement->bindParam(2, $_idMember);
-    $_description = $_POST["description"];
-    $_idMember = $_SESSION["id"];
-    $statement->execute();
-}
-
-if(isset($_GET['id']) || isset($_SESSION['image-id'])) {
-
-    if(isset($_GET['id'])){
-        $_SESSION['image-id'] = $_GET['id'];
-    }
-    else{
-        $_GET['id'] = $_SESSION['image-id'];
-    }
-
-    $ImageTitle = null;
-    $ImageDescription = null;
-    $ImageUrl = null;
-    $MemberAlias = null;
-    $MemberFirstname = null;
-    $MemberLastname = null;
+if(isset($_GET['id'])) {
     include "connexion.php";
-    $statement = $db->prepare("select titre, description, url, alias, firstname, lastname from Images I Inner Join Members M ON I.idMember = M.idMember WHERE idImage = ?");
-
-
+    $statement = $db->prepare("select titre, description from Images WHERE idImage = ?");
     $statement->bindParam(1, $_GET['id']);
-
     $statement->execute();
     while($donnees = $statement->fetch()){
-        $ImageTitle = $donnees[0];
-        $ImageDescription = $donnees[1];
-        $ImageUrl = $donnees[2];
-        $MemberAlias = $donnees[3];
-        $MemberFirstname = $donnees[4];
-        $MemberLastname = $donnees[5];
+        $imgTitle = $donnees[0];
+        $imgDescription = $donnees[1];
     }
     
 }
@@ -59,7 +21,7 @@ if(isset($_GET['id']) || isset($_SESSION['image-id'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title><?php echo "Modification de: " . $ImageTitle; ?></title>
+    <title><?php echo "Modification de: " . $imgTitle; ?></title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
@@ -83,24 +45,14 @@ if(isset($_GET['id']) || isset($_SESSION['image-id'])) {
                         <li class="nav-item" role="presentation">
                                 <?php
                                 if(isset( $_SESSION["username"])){
-                                    echo "<a class=\"nav-link\" href=\"profile.php\">";
-                                    echo $_SESSION["username"] . "</a>";
+                                    echo "<a class=\"nav-link\" href=\"profile.php\">" . $_SESSION["username"] . "</a>";
                                 }
-                                else{
-                                    echo "<a class=\"nav-link\" href=\"login.php\">";
-                                    echo "Connexion" . "</a>";
-                                }
-                                    
-                                ?>
+                                else{echo "<a class=\"nav-link\" href=\"login.php\">" . "Connexion" . "</a>";} ?>
                         </li>
                         <?php
                         if(isset( $_SESSION["username"])){
-                            echo "<li class=\"nav-item\" role=\"presentation\">
-                                    <a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>
-                                    </li>";
-                        }
-
-                        ?>
+                            echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
+                        }?>
                     </ul>
                 </div>
             </div>
@@ -113,29 +65,29 @@ if(isset($_GET['id']) || isset($_SESSION['image-id'])) {
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px; text-align: center;">
                         <h4 class="card-title">
                             <?php
-                                if(isset($_POST["titre"]) && $_POST["titre"] !== ""){
+                                if(isset($_GET["titre"])){
                                     echo "<strong style=\"color: green;\">Titre changé avec succès</strong><br><br>";
                                 }
-                                if(isset($_POST["description"]) && $_POST["description"] !== ""){
+                                if(isset($_GET["description"])){
                                     echo "<strong style=\"color: green;\">Description changée avec succès</strong><br><br>";
                                 }
-                                echo  $ImageTitle . "<br>"."<br>";
+                                echo  $imgTitle . "<br>"."<br>";
                                 echo "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $_GET['id'] . ".png'  >";
                             ?>
                         </h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px;">
                             Titre<br>
-                            <form style="border: solid 1px lightgrey; padding: 10px;"  action="image-edit.php" method="post">
-                                <?php echo $ImageTitle . "<br>";?><br>
+                            <form style="border: solid 1px lightgrey; padding: 10px;"  <?php echo " action=\"image-edit-title-process.php?id=" . $_GET['id'] . "\" "?> method="post">
+                                <?php echo $imgTitle . "<br>";?><br>
                                 <input type="text" class="form-control" name="titre" style="width: 250px; float: left; margin-right: 15px;">
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>
                         </div>
                         <div class="row" style="margin: 15px -15px;">
                             Description<br>
-                            <form  style="border: solid 1px lightgrey; padding: 10px; width: 100%;"  action="image-edit.php" method="post">
-                                <?php echo $ImageDescription . "<br>";?><br>
+                            <form  style="border: solid 1px lightgrey; padding: 10px;" <?php echo " action=\"image-edit-desc-process.php?id=" . $_GET['id'] . "\" "?> method="post">
+                                <?php echo $imgDescription . "<br>";?><br>
                                 <textarea type="text" class="form-control" name="description"></textarea><br>
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>

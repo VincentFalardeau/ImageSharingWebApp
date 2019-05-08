@@ -89,17 +89,17 @@
                             $statement->execute();
 
                             while($donnees = $statement->fetch()){
-                                $Member = array($donnees[0], $donnees[1], $donnees[2], $donnees[3], $donnees[4], $donnees[5]);
+                                $member = array($donnees[0], $donnees[1], $donnees[2], $donnees[3], $donnees[4], $donnees[5]);
                             }
                         ?>
                         <h4 class="card-title">
-                            <?php echo $Member[3] . " " . $Member[4] ;?>
+                            <?php echo $member[3] . " " . $member[4] ;?>
                         </h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px;">
                             Courriel<br>
                             <form style="border: solid 1px lightgrey; padding: 10px;"  action="profile.php" method="post">
-                                <?php echo $Member[5] . "<br>";?><br>
+                                <?php echo $member[5] . "<br>";?><br>
                                 <input type="text" class="form-control" name="email" style="width: 250px; float: left; margin-right: 15px;">
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>

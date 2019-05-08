@@ -1,12 +1,11 @@
 <?php 
- session_start();
- if(isset($_POST['commentid']) && isset($_SESSION['id'])) {
+session_start();
+if(isset($_POST['commentid']) && isset($_SESSION['id'])) {
 
    $commentid = $_POST['commentid'];
    $userid = $_SESSION['id'];
 
    include "connexion.php";
-
 
    $stm = $db->prepare("DELETE FROM Comments WHERE idMember = ? AND idComment = ?");
               
@@ -16,7 +15,6 @@
    $stm->execute();
 
    $id=$db->lastInsertId();
-
 
    echo $id;
 }
