@@ -32,29 +32,15 @@
                         <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                             <h4 class="card-title"><?php echo $ImageTitle ?></h4>
                             <hr>
-                            <div class="row" style="margin: 15px -15px;">
-                                <div class="col">
-                                    <div class="card">
-                                        <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <?php 
-                                            if(isset($_GET['id'])) {
-                                                echo  '<img style="width: 100%;" src="./fichiers/' . $_GET['id'] . '.png">';
-                                            }?>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="col">
-                                    <div class="card">
-                                        <div class="card-body shadow-sm" style="padding: 10px;">
-                                            <div style="width: 100%;height: 150px;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body shadow-sm" style="padding: 10px;">
-                                            <div style="width: 100%;height: 236.5px;"></div>
-                                        </div>
-                                    </div>  
-                                </div>
+                            <div class="row" style="margin: 15px -15px;  text-align: center;">
+                                <?php 
+                                if(isset($_GET['id'])) {
+                                    echo '<div style="width:100%;height: 600px; line-height: 600px; margin-bottom:20px;">';
+                                    echo  '<img style= "max-width:800px; max-height: 600px;" src="./fichiers/' . $_GET['id'] . '.png">';
+                                    
+                                    echo '</div>';
+                                }
+                            ?>
                             </div>
                         </div>
                     </div>

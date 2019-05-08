@@ -18,7 +18,7 @@
         }
         else{
             echo  "<a href=\"login.php\" style=\"margin-right: 20px;\">Connexion</a>" . 
-            "<a href=\"inscrip.php\" style=\"margin-right: 20px;\">S'inscrire</a>";
+            "<a href=\"inscrip.php\">S'inscrire</a>";
         }
         
     ?>

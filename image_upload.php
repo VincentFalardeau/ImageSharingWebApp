@@ -9,12 +9,13 @@
           if (is_uploaded_file($_FILES['ImageFile']['tmp_name'])) {
 
               include "connexion.php";
-              $stm = $db->prepare("INSERT INTO Images (idMember, titre, url, Description) VALUES (?, ?, ?, ?)");
+              $stm = $db->prepare("INSERT INTO Images (idMember, titre, url, Description, date) VALUES (?, ?, ?, ?, ?)");
               
               $stm->bindParam(1, $_SESSION['id']);
               $stm->bindParam(2, $_POST['ImageTitle']);
               $stm->bindParam(3, $_FILES['ImageFile']['name']);
               $stm->bindParam(4, $_POST['ImageDescription']);
+              $stm->bindParam(5, date('Y-m-d H:i:s'));
               
               $stm->execute();
 

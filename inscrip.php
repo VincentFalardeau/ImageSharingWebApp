@@ -36,7 +36,7 @@
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 420px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px;">
-                        <h4 class="card-title">Subscribe</h4>
+                        <h4 class="card-title">S'inscrire</h4>
                         <hr>
                         <form action="./inscrip.php" method="post">
 							<div class="form-group">

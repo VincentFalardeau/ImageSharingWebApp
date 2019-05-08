@@ -93,82 +93,60 @@ if(isset($_GET['id'])) {
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title"><?php echo $ImageTitle ?></h4>
                         <hr>
-                        <div class="row" style="margin: 15px -15px;">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                    <?php 
-                                    if(isset($_GET['id'])) {
-                                        echo '<div class="img-holder">';
-                                         echo  '<img src="./fichiers/' . $_GET['id'] . '.png">';
-                                        echo '</div>';
-                                        if(isset($_SESSION['id']) && $_SESSION['username'] === $MemberAlias){
-                                            echo "<a class=\"card-link\" style=\"float: right;\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
-                                            echo "<a class=\"card-link\" style=\"float: right; margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . "'>Modifier</a>";
-                                        }
-                                    }?>
-                                    </div>
-                                </div>
-                              
-                            </div >
+                        <div class="row" style="margin: 15px -15px; text-align: center;">
+                            <?php 
+                                if(isset($_GET['id'])) {
+                                    echo '<div style="width:100%;height: 600px; line-height: 600px; margin-bottom:20px;">';
+                                    echo  '<img style= "max-width:800px; max-height: 600px;" src="./fichiers/' . $_GET['id'] . '.png">';
+                                    
+                                    echo '</div>';
+
+                                }
+
+                            ?>
                             
-                             <div class="col">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <div style="width: 100%;height: auto;"><h4>Informations</h4>
-                                            <!--Ici, on genere un string dinfos en php-->
-                                            <b> Member username: </b><br> <?php echo $MemberAlias ?><br>
-                                            <b> Member name: </b><br> <?php echo $MemberFirstname . " " . $MemberLastname ?><br>
-                                            <br>
-                                            <b>Image description: </b> <br>
-                                            <?php echo $ImageDescription ?>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                               <br>
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="padding: 10px;">
-                                        <div style="width: 100%;height: auto"><b>Commentaires</b>
-                                            <div id="container-comments"><!--chaque commentaire est generer sous forme dun span suivi dun bouton x et dun br, pour supprimer notre commentaire, on peut appuyer sur le x
-                                                on trouvera un systeme pour associer le commentaire au bouton-->
-                                               
-                                               <?php 
-                                                    include "connexion.php";
-                                                    $statement_comment = $db->prepare("select idComment, C.idMember, idImage, description, date, firstName, lastName from Comments C INNER JOIN Members M ON C.idMember = M.idMember WHERE idImage = ? ORDER BY date DESC");
-                                                    $statement_comment->bindParam(1, $_GET['id']);
-                                                    $statement_comment->execute();
-                                                    while($donnees_comment = $statement_comment->fetch()){
-                                                        $date = strtotime($donnees_comment[4]);
-
-                                                        echo '<div class="card car-body shadow p-2 my-2" id="c-' . $donnees_comment[0] . '"><span><span class="text-muted">' . date('j F Y', $date) . '</span><br> <div class="py-2">' . $donnees_comment[3] . '</div></span><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
- 
-                                                        if(isset($_SESSION['id']) && $_SESSION['id'] == $donnees_comment[1]) {
-                                                            echo '<button class="btn btn-danger" style="width: 80px; float: right" onclick="deleteComment(' . $donnees_comment[0] . ')" > <span style="color: white">delete</span></button><br></div></div>';
-                                                        }else{
-                                                            echo '<br></div></div>';
-                                                  
-                                                        }
-
-                                                    }
-        
-                                               ?>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                            </div>
-                            <br>
-                            <?php if(isset($_SESSION['id'])) {
+                            <div style="width: 50%;height: auto;">
+                                <?php 
+                                if(isset($_SESSION['id']) && $_SESSION['username'] === $MemberAlias){
+                                        echo "<div style=\"width: 100%; text-align:center;\"><a class=\"card-link\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
+                                        echo "<a class=\"card-link\" margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . "'>Modifier</a></div><br>";
+                                    }
+                                ?>
+                                <b> Auteur: </b><?php echo $MemberFirstname . " " . $MemberLastname ?> <b>alias</b> <?php echo $MemberAlias ?><br> 
+                                <br>
+                                <b>Description: </b><?php echo $ImageDescription ?>
+                                <br>
+                                <br>
+                                <?php if(isset($_SESSION['id'])) {
                                  
-                                 echo ' <div class="form-group"><input type="text" class="form-control" placeholder="Your comment.." id="newcomment"></div>
-                                 <button class="btn btn-primary float-right" type="button" style="margin: 10px 0px 0px 0px; width: 100%" onclick="addNewComment()">
-                                    Add comment
-                                 </button>';                             
+                                 echo '<input type="text" class="form-control" placeholder="Votre commentaire..." id="newcomment">
+                                        <button class="btn btn-primary" type="button" style="margin: 10px 0px 0px 0px; width: 100%" onclick="addNewComment()">Commenter</button>';                             
                                  }?>
-                                </div> 
+                            </div>
+                            <div style="width: 50%;height: auto; float:right;"><b>Commentaires</b>
+                                <div id="container-comments">
+                                <?php 
+                                include "connexion.php";
+                                $statement_comment = $db->prepare("select idComment, C.idMember, idImage, description, date, firstName, lastName from Comments C INNER JOIN Members M ON C.idMember = M.idMember WHERE idImage = ? ORDER BY date DESC");
+                                $statement_comment->bindParam(1, $_GET['id']);
+                                $statement_comment->execute();
+                                while($donnees_comment = $statement_comment->fetch()){
+                                    $date = strtotime($donnees_comment[4]);
+
+                                    echo '<div class="card car-body shadow p-2 my-2" id="c-' . $donnees_comment[0] . '"><div><div class="text-muted">' . date('j F Y', $date) . '</div><br> <div class="py-2">' . $donnees_comment[3] . '</div></div><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
+
+                                    if(isset($_SESSION['id']) && $_SESSION['id'] == $donnees_comment[1]) {
+                                        echo '<button class="btn btn-danger" style="width: 80px; float: right" onclick="deleteComment(' . $donnees_comment[0] . ')" > <div style="color: white">delete</div></button><br></div></div>';
+                                    }else{
+                                        echo '<br></div></div>';
+
+                                    }
+
+                                }
+                                ?>
+
+                            </div>
+
                         </div>
                         
                     </div>

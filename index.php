@@ -84,49 +84,48 @@
                         <div class="row" style="margin: 15px -15px;">
 							<?php
 								include "connexion.php";
-								$statement = $db->prepare("call listAllImages()");
+								$statement = $db->prepare("select idImage, i.idMember, titre, description, alias, date from Images i inner join Members m on i.idMember = m.idMember order by date desc;");
 								$statement->execute();
 								while($donnees = $statement->fetch()){
                                     if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
-    									echo "<div class=\"col-4\">" . "<div class=\"card\">" . "<div class=\"card-body shadow-sm\" style=\"padding: 10px;\">" .
+    									echo "<div class=\"col-4\" style=\"margin-bottom:20px;\">" . 
+                                        "<div class=\"card\">" . 
+                                        "<div class=\"card-body shadow-sm\" style=\"padding: 10px;height: 400px; text-align:center; background-color: gainsboro;\">" .
+                                        "<div style=\"width:100%; height: 150px; line-height: 150px; margin-bottom:20px;\">" .
                                         "<a href='./gestimage.php?id=". $donnees[0] ."'>".
-                                        "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $donnees[0] . ".png'  >" . 
-                                        "</a>".
-                                        "<span class=\"card-link\">" . $donnees[2] . "</span>";
-    									 if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
-    										echo "<a class=\"card-link\" style=\"float: right;\" href='./image-delete.php?id=". $donnees[0] . "'>Supprimer</a>" .
-                                            "<a class=\"card-link\" style=\"float: right;\" href='./image-edit.php?id=". $donnees[0] ."'>Modifier</a>";
+                                        "<img style=\"max-width: 200px; max-height: 150px;\" src='fichiers/" . $donnees[0] . ".png'>" . "</a></div>".
+                                        "<div style=\"width:100%;\">" . $donnees[2] . "</div>" .
+                                        "<div style=\"width:100%; text-align:left; height: 120px;background-color: white;\">" . $donnees[3] . "</div>" . "<div style=\"width:100%;\">Auteur: " . $donnees[4] . " (" . explode(" ", $donnees[5])[0] . ")" . "</div>" . "<div style=\"width:100%;\">";
+                                        $stm = $db->prepare("select count(*) from Comments where idImage = ?");
+                                        $stm->bindParam(1, $_id);
+                                        $_id = $donnees[0];
+                                        $stm->execute();
+                                        $nb_com = $stm->fetch();
+                                        echo $nb_com[0] . " commentaires</div>";
+    									if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
+    										echo "<a class=\"card-link\"href='./image-edit.php?id=". $donnees[0] . "'>Modifier</a>" .
+                                            "<a class=\"card-link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
     									} 
-
-                                        echo "<div>" . $donnees[3] . "</div>";
     									echo "</div></div></div>";
                                     }
 								}
                             ?>
                             <?php  if(isset($_SESSION["id"])) : ?>
                             <div class="col-4">
-                                <div class="card mt-2">
-                                    <div class="card-body shadow-sm">
-                                    <h4 class="card-title">
-                                        Ajouter une image
-                                        </h4>
+                                <div class="card">
+                                    <div class="card-body shadow-sm" style="height: 360px; background-color: gainsboro;">
+                                        <div style="text-align: center;"><strong>Ajouter une image</strong></div>
                                     <form action="./image_upload.php" method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                            <label >Titre</label>
-                                                <input type="text" class="form-control" name="ImageTitle">
-                                        </div>
                                         <div class="form-group">
-                                            <label >Image</label>
-                                                <input type="file" class="form-control-file" name="ImageFile">
-                                            </div>
+                                            <label >Titre</label>
+                                            <input type="text" class="form-control" name="ImageTitle"></br>
+                                            <input type="file" class="form-control-file" name="ImageFile"></br>
                                             <div class="form-group">
                                             <label >Description</label></br>
                                                <textarea class="form-control" row=3 name="ImageDescription"></textarea>
                                             </div>
                                             <button class="btn btn-primary btn-small float-right" type="submit">Ajouter</button>
                                         </div>
-                                    </form>
-                                    </div>
                                 </div>
                             </div>
                             <?php endif;?> 

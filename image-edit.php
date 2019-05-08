@@ -2,26 +2,23 @@
 <html>
 <?php 
 session_start();
-
 include "connexion.php";
 
 if(isset($_GET['id'])) {
-    include "connexion.php";
     $statement = $db->prepare("select titre, description from Images WHERE idImage = ?");
     $statement->bindParam(1, $_GET['id']);
     $statement->execute();
     while($donnees = $statement->fetch()){
-        $imgTitle = $donnees[0];
-        $imgDescription = $donnees[1];
+        $titre = $donnees[0];
+        $description = $donnees[1];
     }
-    
 }
 ?>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title><?php echo "Modification de: " . $imgTitle; ?></title>
+    <title><?php echo "Modification de: " . $titre; ?></title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
@@ -58,37 +55,24 @@ if(isset($_GET['id'])) {
             </div>
         </nav>
     </div>
-    <div class="container" style="height: 293px;margin: 100px auto;">
+    <div class="container" style="height: 293px;margin: 50px auto;">
         <div class="row">
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 420px;margin: auto;">
-                    <div class="card-body" style="margin: auto;width: 425px;padding: 40px; text-align: center;">
-                        <h4 class="card-title">
-                            <?php
-                                if(isset($_GET["titre"])){
-                                    echo "<strong style=\"color: green;\">Titre changé avec succès</strong><br><br>";
-                                }
-                                if(isset($_GET["description"])){
-                                    echo "<strong style=\"color: green;\">Description changée avec succès</strong><br><br>";
-                                }
-                                echo  $imgTitle . "<br>"."<br>";
-                                echo "<img style=\"width: 298px;height: 298px;\" src='fichiers/" . $_GET['id'] . ".png'  >";
-                            ?>
-                        </h4>
-                        <hr>
+                    <div class="card-body" style="margin: auto;width: 425px;padding: 40px; background-color: gainsboro;">
+                        <?php
+                            echo "<div style=\"width: 100%;height: 298px; text-align:center; line-height: 298px;\">" .
+                            "<img style=\"max-width: 298px;max-height: 298px;\" src='fichiers/" . $_GET['id'] . ".png'  ></div>";
+                        ?>
                         <div class="row" style="margin: 15px -15px;">
-                            Titre<br>
-                            <form style="border: solid 1px lightgrey; padding: 10px;"  <?php echo " action=\"image-edit-title-process.php?id=" . $_GET['id'] . "\" "?> method="post">
-                                <?php echo $imgTitle . "<br>";?><br>
-                                <input type="text" class="form-control" name="titre" style="width: 250px; float: left; margin-right: 15px;">
-                                <input class="btn btn-primary float-right" type="submit" value="Modifier">
-                            </form>
-                        </div>
-                        <div class="row" style="margin: 15px -15px;">
-                            Description<br>
-                            <form  style="border: solid 1px lightgrey; padding: 10px;" <?php echo " action=\"image-edit-desc-process.php?id=" . $_GET['id'] . "\" "?> method="post">
-                                <?php echo $imgDescription . "<br>";?><br>
-                                <textarea type="text" class="form-control" name="description"></textarea><br>
+                            <?php 
+                            if(isset($_GET["titre"])){
+                                echo "<div style=\"color: green; text-align: center; width:100%;\">Informations modifiées avec succès</div><br><br>";
+                            }?>
+                            <form style="border: solid 1px lightgrey; padding: 10px; width: 100%;"  <?php echo " action=\"image-edit-process.php?id=" . $_GET['id'] . "\" "?> method="post">
+                                Titre <input type="text" class="form-control" name="titre"
+                                <?php echo " value=\"" . $titre . "\""?>><br>
+                                Description<textarea type="text" class="form-control" name="description" style=""><?php echo $description ?></textarea><br>
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>
                         </div>

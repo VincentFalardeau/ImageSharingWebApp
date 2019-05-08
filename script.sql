@@ -13,5 +13,5 @@ end |
 delimiter |
 create procedure listAllImages()
 begin
-	select idImage, idMember, titre, description from Images;
+	select idImage, idMember, titre, description, alias, date from Images i inner join Members m on i.idMember = m.idMember;
 end |
