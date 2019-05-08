@@ -45,6 +45,11 @@
 							    ?>
                         </li>
 						<?php
+                        if(isset( $_SESSION["admin"]) && $_SESSION['admin'] === "1"){
+                            echo "<li class=\"nav-item\" role=\"presentation\">
+                                    <a class=\"nav-link\" href=\"admin.php\">Admin</a>
+                                    </li>";
+                        }
 						if(isset( $_SESSION["username"])){
 							echo "<li class=\"nav-item\" role=\"presentation\">
 									<a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>

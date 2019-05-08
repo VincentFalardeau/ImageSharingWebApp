@@ -52,19 +52,20 @@
 								include "connexion.php";
 								if(isset($_POST['username']) && isset($_POST['password'])){
 									include "connexion.php";
-									$stm = $db->prepare("call getMember(?, ?)");
+									$stm = $db->prepare("select * from Members where alias = ? and password = ?");
 									$stm->bindParam(1, $param_username);
 									$stm->bindParam(2, $param_password);
 									$param_username=$_POST['username'];
 									$param_password=$_POST['password'];
 									$stm->execute();
-									$id = $stm->fetch();
-									if($id[0] !== null){
+									$donnees = $stm->fetch();
+									if($donnees[0] !== null){
 										session_start();
 										$_SESSION['username'] = $_POST['username'];
-                                        $_SESSION['id'] = $id[0];
-                                        $_SESSION['firstName'] = $id[1];
-                                        $_SESSION['lastName'] = $id[2];
+                                        $_SESSION['id'] = $donnees[0];
+                                        $_SESSION['firstName'] = $donnees[3];
+                                        $_SESSION['lastName'] = $donnees[4];
+                                        $_SESSION['admin'] = $donnees[6];
 										$location = "index.php";
 										header('Location: ' . $location);
 										echo $id[0];

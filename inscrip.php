@@ -138,6 +138,7 @@
 										$_SESSION['id'] = $id[0];
 										$_SESSION['firstName'] = $param_firstName;
 										$_SESSION['lastName'] = $param_lastName;
+										$_SESSION['admin'] = "0";
 										header('Location: index.php');
 									} 
 								}
