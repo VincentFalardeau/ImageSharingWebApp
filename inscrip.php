@@ -136,6 +136,8 @@
 										session_start();
 										$_SESSION['username'] = $_POST['username'];
 										$_SESSION['id'] = $id[0];
+										$_SESSION['firstName'] = $param_firstName;
+										$_SESSION['lastName'] = $param_lastName;
 										header('Location: index.php');
 									} 
 								}
