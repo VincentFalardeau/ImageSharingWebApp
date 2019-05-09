@@ -1,21 +1,17 @@
 <?php 
 session_start();
-if(isset($_POST['commentid']) && isset($_SESSION['id'])) {
+if(isset($_GET['idComment'])) {
 
-   $commentid = $_POST['commentid'];
-   $userid = $_SESSION['id'];
+   $commentid = $_GET['idComment'];
 
    include "connexion.php";
 
-   $stm = $db->prepare("DELETE FROM Comments WHERE idMember = ? AND idComment = ?");
+   $stm = $db->prepare("DELETE FROM Comments WHERE idComment = ?");
               
-   $stm->bindParam(1, $userid);
-   $stm->bindParam(2, $commentid);
+   $stm->bindParam(1, $commentid);
    
    $stm->execute();
 
-   $id=$db->lastInsertId();
-
-   echo $id;
+   header("Location: gestimage.php?id=" . $_GET['id']);
 }
 ?>

@@ -107,7 +107,7 @@ if(isset($_GET['id'])) {
                             
                             <div style="width: 50%;height: auto;">
                                 <?php 
-                                if(isset($_SESSION['id']) && $_SESSION['username'] === $MemberAlias){
+                                    if(isset($_SESSION['id']) && $_SESSION['username'] === $MemberAlias){
                                         echo "<div style=\"width: 100%; text-align:center;\"><a class=\"card-link\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
                                         echo "<a class=\"card-link\" margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . "'>Modifier</a></div><br>";
                                     }
@@ -117,11 +117,12 @@ if(isset($_GET['id'])) {
                                 <b>Description: </b><?php echo $ImageDescription ?>
                                 <br>
                                 <br>
-                                <?php if(isset($_SESSION['id'])) {
+                                 <form <?php echo " action=\"comment-add-process.php?id=" . $_GET['id'] . "\" "?> method="post">   <?php if(isset($_SESSION['id'])) {
                                  
-                                 echo '<input type="text" class="form-control" placeholder="Votre commentaire..." id="newcomment">
-                                        <button class="btn btn-primary" type="button" style="margin: 10px 0px 0px 0px; width: 100%" onclick="addNewComment()">Commenter</button>';                             
-                                 }?>
+                                    echo '<input type="text" class="form-control" placeholder="Votre commentaire..." name="comment">
+                                        <input class="btn btn-primary" type="submit" value="Commenter" style="margin: 10px 0px 0px 0px; width: 100%">';                             
+                                    }?>
+                                 </form>
                             </div>
                             <div style="width: 50%;height: auto; float:right;"><b>Commentaires</b>
                                 <div id="container-comments">
@@ -134,14 +135,14 @@ if(isset($_GET['id'])) {
                                     $date = strtotime($donnees_comment[4]);
 
                                     echo '<div class="card car-body shadow p-2 my-2" id="c-' . $donnees_comment[0] . '"><div><div class="text-muted">' . date('j F Y', $date) . '</div><br> <div class="py-2">' . $donnees_comment[3] . '</div></div><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
-
+                                                            
                                     if(isset($_SESSION['id']) && $_SESSION['id'] == $donnees_comment[1]) {
-                                        echo '<button class="btn btn-danger" style="width: 80px; float: right" onclick="deleteComment(' . $donnees_comment[0] . ')" > <div style="color: white">delete</div></button><br></div></div>';
-                                    }else{
+                                         echo "<form action=\"comment-delete-process.php?idComment=" .  $donnees_comment[0] . 
+                                    "&id=" . $_GET['id'] . "\" method=\"post\">";
+                                 
+                                    echo "<input class=\"btn btn-danger\" type=\"submit\" value=\"Supprimer\" style=\"width: 100px; float: right\"></form>";  
+                                    }  
                                         echo '<br></div></div>';
-
-                                    }
-
                                 }
                                 ?>
 
@@ -160,33 +161,3 @@ if(isset($_GET['id'])) {
 </body>
 
 </html>
-
-<script>
-
-
-deleteComment = function(id) {
-    if(id != null && id != undefined) {
-        $.post( "comment-delete-process.php", { commentid: id})
-        .done(function( data ) {
-            $('#c-' + id).remove();           
-        });
-    }
-}
-
-addNewComment = function() {
-
-    var new_comment = $('#newcomment').val();
-    
-    if(new_comment != "" && new_comment != undefined) {
-        $.post( "comment-add-process.php", { comment: new_comment, image: <?php echo $_GET['id']?> })
-        .done(function( data ) {
-            var container = $('#container-comments');
-            container.prepend('<div class="card car-body shadow p-2 my-2"><span id="' + data + '"><span class="text-muted"> <?php echo date('j F Y', time()) ?> </span><br> <div class="py-2">' + new_comment + '</div></span><hr><div> <?php echo $_SESSION['firstName'] . ' ' . $_SESSION['lastName'] ?> <button class="btn btn-danger" style="width: 80px; float: right" onclick="deleteComment(' + data + ')"> <span style="color: white">delete</span></button><br></div></div>');
-           
-        });
-    }
- 
-}
-
-
-</script>

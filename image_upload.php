@@ -2,7 +2,7 @@
  session_start();
  if(isset($_FILES["ImageFile"]) && isset($_POST['ImageTitle']) && isset($_POST['ImageDescription'])) {
 
-      //Erreur avec certaines images
+      //Erreur avec certaines images JPG
       $file = $_FILES["ImageFile"];
       if (($_FILES['ImageFile']['type'] == "image/jpeg") ||
       ($_FILES['ImageFile']['type'] == "image/png") ||
@@ -16,7 +16,9 @@
               $stm->bindParam(2, $_POST['ImageTitle']);
               $stm->bindParam(3, $_FILES['ImageFile']['name']);
               $stm->bindParam(4, $_POST['ImageDescription']);
-              $stm->bindParam(5, date('Y-m-d H:i:s'));
+              $stm->bindParam(5, $date);
+
+              $date = date('Y-m-d H:i:s');
               
               $stm->execute();
 
