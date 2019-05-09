@@ -45,7 +45,7 @@
 							    ?>
                         </li>
 						<?php
-                        if(isset( $_SESSION["admin"]) && $_SESSION['admin'] === "1"){
+                        if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
                             echo "<li class=\"nav-item\" role=\"presentation\">
                                     <a class=\"nav-link\" href=\"admin.php\">Admin</a>
                                     </li>";

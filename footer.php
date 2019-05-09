@@ -5,8 +5,12 @@
     <?php
         if(isset($_SESSION['username'])){
             echo $_SESSION['firstName'] . " " . $_SESSION['lastName'] . " " .
-            "<a href=\"profile.php\" style=\"margin-right: 20px; margin-left: 20px;\">Votre profil</a>" . 
-            "<a href=\"logout.php\">Déconnexion</a>";
+            "<a href=\"profile.php\" style=\"margin-right: 20px; margin-left: 20px;\">Votre profil</a>";
+            
+            if($_SESSION['username'] === "admin"){
+                echo "<a href=\"admin.php\" style=\"margin-right: 20px;\">Admin</a>";
+            }
+            echo "<a href=\"logout.php\">Déconnexion</a>";
         }
         else{
             echo  "<a href=\"login.php\" style=\"margin-right: 20px;\">Connexion</a>" . 

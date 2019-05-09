@@ -119,7 +119,7 @@
 									&& $_POST['username'] !== '' && $_POST['password'] !== '' && $_POST['firstname'] !== '' && $_POST['lastname'] !== '' && $_POST['email'] !== ''
 									&& $_POST['passwordconfirmation'] === $_POST['password']){
 									if($id[0] === null){
-										$stm = $db->prepare("insert into Members values(null, ?, ?, ?, ?, ?, 0)");
+										$stm = $db->prepare("insert into Members values(null, ?, ?, ?, ?, ?)");
 										$stm->bindParam(1, $param_username);
 										$stm->bindParam(2, $param_password);
 										$stm->bindParam(3, $param_firstName);
@@ -138,7 +138,6 @@
 										$_SESSION['id'] = $id[0];
 										$_SESSION['firstName'] = $param_firstName;
 										$_SESSION['lastName'] = $param_lastName;
-										$_SESSION['admin'] = "0";
 										header('Location: index.php');
 									} 
 								}
