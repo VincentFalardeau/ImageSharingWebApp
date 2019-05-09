@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if(isset($_POST['comment']) && isset($_GET['id']) && isset($_SESSION['id'])) {
+if(isset($_POST['comment']) && isset($_GET['id']) && isset($_SESSION['id']) && $_POST['comment'] !== "") {
 
    include "connexion.php";
 
@@ -18,6 +18,7 @@ if(isset($_POST['comment']) && isset($_GET['id']) && isset($_SESSION['id'])) {
    
    $stm->execute();
 
-   header("Location: gestimage.php?id=" . $imageId);
+   
 }
+header("Location: gestimage.php?id=" . $_GET['id']);
 ?>

@@ -100,7 +100,6 @@ if(isset($_GET['id'])) {
                                     echo  '<img style= "max-width:800px; max-height: 600px;" src="./fichiers/' . $_GET['id'] . '.png">';
                                     
                                     echo '</div>';
-
                                 }
 
                             ?>
@@ -134,9 +133,9 @@ if(isset($_GET['id'])) {
                                 while($donnees_comment = $statement_comment->fetch()){
                                     $date = strtotime($donnees_comment[4]);
 
-                                    echo '<div class="card car-body shadow p-2 my-2" id="c-' . $donnees_comment[0] . '"><div><div class="text-muted">' . date('j F Y', $date) . '</div><br> <div class="py-2">' . $donnees_comment[3] . '</div></div><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
+                                    echo '<div class="card shadow p-2 my-2" id="c-' . $donnees_comment[0] . '"><div><div class="text-muted">' . date('j F Y', $date) . '</div><br> <div class="py-2">' . $donnees_comment[3] . '</div></div><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
                                                             
-                                    if(isset($_SESSION['id']) && $_SESSION['id'] == $donnees_comment[1]) {
+                                    if(isset($_SESSION['id']) && ($_SESSION['id'] === $donnees_comment[1] || $_SESSION['username'] === $MemberAlias)) {
                                          echo "<form action=\"comment-delete-process.php?idComment=" .  $donnees_comment[0] . 
                                     "&id=" . $_GET['id'] . "\" method=\"post\">";
                                  
