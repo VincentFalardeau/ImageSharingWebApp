@@ -116,7 +116,7 @@
                             <?php  if(isset($_SESSION["id"])) : ?>
                             <div class="col-4">
                                 <div class="card">
-                                    <div class="card-body shadow-sm" style="height: 360px; background-color: gainsboro;">
+                                    <div class="card-body shadow-sm" style="height: 400px; background-color: gainsboro;">
                                         <div style="text-align: center;"><strong>Ajouter une image</strong></div>
                                     <form action="./image_upload.php" method="post" enctype="multipart/form-data">
                                         <div class="form-group">

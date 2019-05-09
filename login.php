@@ -42,39 +42,55 @@
                         <form action="./login.php" method="post">
                             <div class="form-group">
                                 <label class="form-control-label" style="width: 100%;font-size: 16px;">Nom d'utilisateur</label>
-                                <input type="text" class="form-control" name="username">
+                                <?php 
+                                    if(isset($_POST['username']) && $_POST['username'] != "") {
+                                        include "connexion.php";
+                                        $stm = $db->prepare("call getMemberByAlias(?)");
+                                        $stm->bindParam(1, $param_username);
+                                        $param_username=$_POST['username'];
+                                        $stm->execute();
+                                        $id = $stm->fetch();
+                                        echo "<input type=\"text\" class=\"form-control\" name=\"username\" value=\"" . $_POST['username'] . "\">";
+                                        if($id[0] === null){
+                                            echo "<strong style=\"color: red;\">Utilisateur inexistant</strong><br>";
+                                        }
+                                    }
+                                    else{
+                                        echo "<input type=\"text\" class=\"form-control\" name=\"username\">";
+                                    }
+                                ?>
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label" style="width: 100%;font-size: 16px;">Mot de passe</label>
                                 <input class="form-control" name="password" type="password">
-                            </div>
-							<?php
-								include "connexion.php";
-								if(isset($_POST['username']) && isset($_POST['password'])){
-									include "connexion.php";
-									$stm = $db->prepare("select * from Members where alias = ? and password = ?");
-									$stm->bindParam(1, $param_username);
-									$stm->bindParam(2, $param_password);
-									$param_username=$_POST['username'];
-									$param_password=$_POST['password'];
-									$stm->execute();
-									$donnees = $stm->fetch();
-									if($donnees[0] !== null){
-										session_start();
-										$_SESSION['username'] = $_POST['username'];
+                                <?php
+                                include "connexion.php";
+                                if(isset($_POST['username']) && isset($_POST['password'])){
+                                    include "connexion.php";
+                                    $stm = $db->prepare("select * from Members where alias = ? and password = ?");
+                                    $stm->bindParam(1, $param_username);
+                                    $stm->bindParam(2, $param_password);
+                                    $param_username=$_POST['username'];
+                                    $param_password=$_POST['password'];
+                                    $stm->execute();
+                                    $donnees = $stm->fetch();
+                                    if($donnees[0] !== null){
+                                        session_start();
+                                        $_SESSION['username'] = $_POST['username'];
                                         $_SESSION['id'] = $donnees[0];
                                         $_SESSION['firstName'] = $donnees[3];
                                         $_SESSION['lastName'] = $donnees[4];
                                         $_SESSION['admin'] = $donnees[6];
-										$location = "index.php";
-										header('Location: ' . $location);
-										echo $id[0];
-									} 
-									else{
-										echo "<br><strong style=\"color: red;\">Nom d'utilisateur et/ou mot de passe invalide</strong><br>";
-									}
-								}
-							?>
+                                        $location = "index.php";
+                                        header('Location: ' . $location);
+                                    } 
+                                    else if($id[0] !== null){
+                                        echo "<strong style=\"color: red;\">Mot de passe invalide</strong><br>";
+                                    }
+                                }
+                            ?>
+                            </div>
+							
                             <button class="btn btn-primary float-right" style="margin: 10px 0px 0px 0px;" type="submit">
                                 Se connecter
                             </button>
