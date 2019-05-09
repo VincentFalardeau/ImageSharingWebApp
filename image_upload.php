@@ -2,10 +2,11 @@
  session_start();
  if(isset($_FILES["ImageFile"]) && isset($_POST['ImageTitle']) && isset($_POST['ImageDescription'])) {
 
+      //Erreur avec certaines images
       $file = $_FILES["ImageFile"];
       if (($_FILES['ImageFile']['type'] == "image/jpeg") ||
       ($_FILES['ImageFile']['type'] == "image/png") ||
-      ($_FILES['ImageFile']['type'] == "image/gif") ||) {
+      ($_FILES['ImageFile']['type'] == "image/gif")) {
           if (is_uploaded_file($_FILES['ImageFile']['tmp_name'])) {
 
               include "connexion.php";

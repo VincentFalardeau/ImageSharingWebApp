@@ -71,9 +71,7 @@
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title">
                             Galerie
-                            <form style="height: 40px; float: right; margin-right: 20px;" action="image-add.php" method="post">
-                                <input class="btn btn-primary float-right" type="submit" value="Ajouter une image">
-                            </form>
+                            
                             <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="index.php" method="post">
                                 <?php
                                     if(!isset($_POST["keyword"])){
