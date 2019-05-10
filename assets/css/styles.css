@@ -1,3 +1,7 @@
+body{
+	background-color: rgb(244,245,247);
+}
+
 .overlay{
 	position: absolute;
 	top: 0;
@@ -31,3 +35,15 @@
 	width: 100%;
 	text-align: center;
 }
+
+.img-holder {
+  width: 473px;
+  height: 473px;
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+}
+.img-holder img {
+width: 100%;
+}
+

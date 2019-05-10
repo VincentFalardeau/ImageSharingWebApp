@@ -1,25 +1,11 @@
 <!DOCTYPE html>
-
-<?php
-	// initialisation de la session
-    session_start();
-    
-?>
-
+<?php session_start(); ?>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Galerie</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <?php $pageTitle="Galerie"; include "head.php"; ?>
 </head>
 
-<body style="background-color: rgb(244,245,247);">
+<body>
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container">
@@ -33,28 +19,22 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-							    <?php
-								if(isset( $_SESSION["username"])){
-									echo "<a class=\"nav-link\" href=\"profile.php\">";
-									echo $_SESSION["username"] . "</a>";
+							<?php
+								if(isset($_SESSION["username"])){
+									echo "<a class=\"nav-link\" href=\"profile.php\">" . $_SESSION["username"] . "</a>";
 								}
 								else{
-									echo "<a class=\"nav-link\" href=\"login.php\">";
-									echo "Connexion" . "</a>";
+									echo "<a class=\"nav-link\" href=\"login.php\">" . "Connexion" . "</a>";
 								}		    
-							    ?>
+							?>
                         </li>
 						<?php
-                        if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
-                            echo "<li class=\"nav-item\" role=\"presentation\">
-                                    <a class=\"nav-link\" href=\"admin.php\">Admin</a>
-                                    </li>";
-                        }
-						if(isset( $_SESSION["username"])){
-							echo "<li class=\"nav-item\" role=\"presentation\">
-									<a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>
-									</li>";
-						}
+                            if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"admin.php\">Admin</a></li>";
+                            }
+						    if(isset( $_SESSION["username"])){
+							echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
+						    }
 						?>
                     </ul>
                 </div>
@@ -63,15 +43,12 @@
     </div>
 
     <div class="container" style="height: 293px;margin: 80px auto;">
-
-    
         <div class="row">
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 1100px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
                         <h4 class="card-title">
                             Galerie
-                            
                             <form style="width: 350px; height: 40px; float: right; margin-right: 20px;" action="index.php" method="post">
                                 <?php
                                     if(!isset($_POST["keyword"])){
@@ -114,23 +91,23 @@
 								}
                             ?>
                             <?php  if(isset($_SESSION["id"])) : ?>
-                            <div class="col-4">
-                                <div class="card">
-                                    <div class="card-body shadow-sm" style="height: 400px; background-color: gainsboro;">
-                                        <div style="text-align: center;"><strong>Ajouter une image</strong></div>
-                                    <form action="./image_upload.php" method="post" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label >Titre</label>
-                                            <input type="text" class="form-control" name="ImageTitle"></br>
-                                            <input type="file" class="form-control-file" name="ImageFile"></br>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-body shadow-sm" style="height: 400px; background-color: gainsboro;">
+                                            <div style="text-align: center;"><strong>Ajouter une image</strong></div>
+                                        <form action="./image_upload.php" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
-                                            <label >Description</label></br>
-                                               <textarea class="form-control" row=3 name="ImageDescription"></textarea>
+                                                <label >Titre</label>
+                                                <input type="text" class="form-control" name="ImageTitle"></br>
+                                                <input type="file" class="form-control-file" name="ImageFile"></br>
+                                                <div class="form-group">
+                                                <label >Description</label></br>
+                                                    <textarea class="form-control" row=3 name="ImageDescription"></textarea>
+                                                </div>
+                                                <button class="btn btn-primary btn-small float-right" type="submit">Ajouter</button>
                                             </div>
-                                            <button class="btn btn-primary btn-small float-right" type="submit">Ajouter</button>
-                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                             <?php endif;?> 
                     </div>
                 </div>

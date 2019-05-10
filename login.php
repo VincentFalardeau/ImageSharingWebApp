@@ -1,37 +1,27 @@
 <!DOCTYPE html>
+<?php include "user-functions.php";?>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Connexion</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <?php $pageTitle="Connexion"; include "head.php"; ?>    
 </head>
 
-<body style="background-color: rgb(244,245,247);">
-    <div>
-        <nav class="navbar navbar-light navbar-expand-md navigation-clean">
-            <div class="container">
-                <a class="navbar-brand" href="index.php">Galerie d'images</a>
-                <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse"
-                    id="navcol-1">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item" role="presentation"></li>
-                        <li class="nav-item" role="presentation"></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="inscrip.php">S'inscrire</a></li>
-                    </ul>
-                </div>
+<body>
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">Galerie d'images</a>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"></li>
+                    <li class="nav-item" role="presentation"></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="inscrip.php">S'inscrire</a></li>
+                </ul>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
     <div class="container" style="height: 293px;margin: 200px auto;">
         <div class="row">
             <div class="col" style="margin: 0px 0px;">
@@ -44,14 +34,9 @@
                                 <label class="form-control-label" style="width: 100%;font-size: 16px;">Nom d'utilisateur</label>
                                 <?php 
                                     if(isset($_POST['username']) && $_POST['username'] != "") {
-                                        include "connexion.php";
-                                        $stm = $db->prepare("call getMemberByAlias(?)");
-                                        $stm->bindParam(1, $param_username);
-                                        $param_username=$_POST['username'];
-                                        $stm->execute();
-                                        $id = $stm->fetch();
                                         echo "<input type=\"text\" class=\"form-control\" name=\"username\" value=\"" . $_POST['username'] . "\">";
-                                        if($id[0] === null){
+                                        $validUserName = userNameExists($_POST['username']);
+                                        if($validUserName === null){
                                             echo "<strong style=\"color: red;\">Utilisateur inexistant</strong><br>";
                                         }
                                     }
@@ -64,38 +49,16 @@
                                 <label class="form-control-label" style="width: 100%;font-size: 16px;">Mot de passe</label>
                                 <input class="form-control" name="password" type="password">
                                 <?php
-                                include "connexion.php";
-                                if(isset($_POST['username']) && isset($_POST['password'])){
-                                    include "connexion.php";
-                                    $stm = $db->prepare("select * from Members where alias = ? and password = ?");
-                                    $stm->bindParam(1, $param_username);
-                                    $stm->bindParam(2, $param_password);
-                                    $param_username=$_POST['username'];
-                                    $param_password=$_POST['password'];
-                                    $stm->execute();
-                                    $donnees = $stm->fetch();
-                                    if($donnees[0] !== null){
-                                        session_start();
-                                        $_SESSION['username'] = $_POST['username'];
-                                        $_SESSION['id'] = $donnees[0];
-                                        $_SESSION['firstName'] = $donnees[3];
-                                        $_SESSION['lastName'] = $donnees[4];
-                                        $_SESSION['admin'] = $donnees[6];
-                                        $location = "index.php";
-                                        header('Location: ' . $location);
-                                    } 
-                                    else if($id[0] !== null){
+                                    if(isset($_POST['username']) && isset($_POST['password'])){
+                                        logUser($_POST['username'], $_POST['password']);
+                                    }
+                                    if(isset($validUserName) && $validUserName !== null){
                                         echo "<strong style=\"color: red;\">Mot de passe invalide</strong><br>";
                                     }
-                                }
-                            ?>
+                                ?>
                             </div>
-							
-                            <button class="btn btn-primary float-right" style="margin: 10px 0px 0px 0px;" type="submit">
-                                Se connecter
-                            </button>
+                            <button class="btn btn-primary float-right" style="margin: 10px 0px 0px 0px;" type="submit">Se connecter</button>
                         </form>
-                       
                     </div>
                 </div>
             </div>
