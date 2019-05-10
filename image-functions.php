@@ -29,6 +29,28 @@
         $db = null;
     }
 
+    function injectComments($id){
+        include "connexion.php";
+        $statement = $db->prepare("call getImageComments(?)");
+        $statement->bindParam(1, $_id);
+        $_id = $id;
+        $statement->execute();
+        while($donnees_comment = $statement->fetch()){
+            $date = strtotime($donnees_comment[4]);
+            echo '<div class="card shadow p-2 my-2" id="c-' . $donnees_comment[0] . 
+                '"><div><div class="text-muted">' . date('j F Y', $date) . 
+                '</div><br> <div class="py-2">' . $donnees_comment[3] . 
+                '</div></div><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
+
+            if(isset($_SESSION['id']) && ($_SESSION['id'] === $donnees_comment[1] || $_SESSION['username'] === $username)) {
+                echo "<form action=\"comment-delete-process.php?idComment=" .  $donnees_comment[0] . "&id=" . $_GET['id'] . "\" method=\"post\">";
+                echo "<input class=\"btn btn-danger\" type=\"submit\" value=\"Supprimer\" style=\"width: 100px; float: right\"></form>";  
+            }  
+         echo '<br></div></div>';
+        }
+        $db = null;
+    }
+
     function getCommentCount($id){
         $count = null;
         try{

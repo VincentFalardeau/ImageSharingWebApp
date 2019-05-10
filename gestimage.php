@@ -1,33 +1,22 @@
 <!DOCTYPE html>
+<?php include "user-functions.php"; include "image-functions.php"?>
 <html>
 <?php session_start();
 
 if(isset($_GET['id'])) {
 
-    $ImageTitle = null;
-    $ImageDescription = null;
-    $ImageUrl = null;
-    $MemberAlias = null;
-    $MemberFirstname = null;
-    $MemberLastname = null;
-    include "connexion.php";
-    $statement = $db->prepare("select titre, description, url, alias, firstname, lastname from Images I Inner Join Members M ON I.idMember = M.idMember WHERE idImage = ?");
+    $image = getImageInfo($_GET['id']);
+    $member = getMemberById($image[0]);
 
-    $statement->bindParam(1, $_GET['id']);
-
-    $statement->execute();
-    while($donnees = $statement->fetch()){
-        $ImageTitle = $donnees[0];
-        $ImageDescription = $donnees[1];
-        $ImageUrl = $donnees[2];
-        $MemberAlias = $donnees[3];
-        $MemberFirstname = $donnees[4];
-        $MemberLastname = $donnees[5];
-    }
+    $title = $image[2];
+    $description = $image[4];
+    $username = $member[1];
+    $firstName = $member[3];
+    $lastName = $member[4];
 }
 ?>
 <head>
-    <?php $pageTitle=$ImageTitle; include "head.php"; ?>
+    <?php $pageTitle=$title; include "head.php"; ?>
 </head>
 
 <body>
@@ -45,18 +34,15 @@ if(isset($_GET['id'])) {
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
                            <?php 
-                           if(isset( $_SESSION["username"])){
-                            echo "<a class=\"nav-link\" href=\"profile.php\">";
-                            echo $_SESSION["username"] . "</a>";
-                            }
+                                if(isset( $_SESSION["username"])){
+                                    echo "<a class=\"nav-link\" href=\"profile.php\">" . $_SESSION["username"] . "</a>";
+                                }   
                            ?>
                         </li>
                         <?php
-                        if(isset( $_SESSION["username"])){
-                            echo "<li class=\"nav-item\" role=\"presentation\">
-                                    <a class=\"nav-link\" href=\"logout.php\">Déconnexion</a>
-                                    </li>";
-                        }
+                            if(isset( $_SESSION["username"])){
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
+                            }
                         ?>
                     </ul>
                 </div>
@@ -68,62 +54,46 @@ if(isset($_GET['id'])) {
             <div class="col" style="margin: 0px 0px;">
                 <div class="card shadow" style="width: 1100px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 1100px;padding: 40px;">
-                        <h4 class="card-title"><?php echo $ImageTitle ?></h4>
+                        <h4 class="card-title"><?php echo $title ?></h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px; text-align: center;">
                             <?php 
                                 if(isset($_GET['id'])) {
                                     echo '<div style="width:100%;height: 600px; line-height: 600px; margin-bottom:20px;">';
-                                    echo  '<img style= "max-width:800px; max-height: 600px;" src="./fichiers/' . $_GET['id'] . '.png">';
-                                    
-                                    echo '</div>';
+                                    echo  '<img style= "max-width:800px; max-height: 600px;" src="./fichiers/' . $_GET['id'] . '.png"></div>';
                                 }
-
                             ?>
-                            
                             <div style="width: 50%;height: auto;">
                                 <?php 
-                                    if(isset($_SESSION['id']) && $_SESSION['username'] === $MemberAlias){
-                                        echo "<div style=\"width: 100%; text-align:center;\"><a class=\"card-link\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
-                                        echo "<a class=\"card-link\" margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . "'>Modifier</a></div><br>";
+                                    if(isset($_SESSION['id']) && $_SESSION['username'] === $username){
+                                        echo "<div style=\"width: 100%; text-align:center;\">
+                                            <a class=\"card-link\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
+                                        echo "<a class=\"card-link\" margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . 
+                                            "'>Modifier</a></div><br>";
                                     }
                                 ?>
-                                <b> Auteur: </b><?php echo $MemberFirstname . " " . $MemberLastname ?> <b>alias</b> <?php echo $MemberAlias ?><br> 
+                                <b> Auteur: </b><?php echo $firstName . " " . $lastName ?> <b>alias</b> <?php echo $username ?><br> 
                                 <br>
-                                <b>Description: </b><?php echo $ImageDescription ?>
+                                <b>Description: </b><?php echo $description ?>
                                 <br>
                                 <br>
-                                 <form <?php echo " action=\"comment-add-process.php?id=" . $_GET['id'] . "\" "?> method="post">   <?php if(isset($_SESSION['id'])) {
+                                 <form <?php echo " action=\"comment-add-process.php?id=" . $_GET['id'] . "\" "?> method="post">   
+                                    <?php 
+                                        if(isset($_SESSION['id'])) {
                                  
-                                    echo '<input type="text" class="form-control" placeholder="Votre commentaire..." name="comment">
-                                        <input class="btn btn-primary" type="submit" value="Commenter" style="margin: 10px 0px 0px 0px; width: 100%">';                             
-                                    }?>
+                                            echo '<input type="text" class="form-control" placeholder="Votre commentaire..." name="comment">
+                                                <input class="btn btn-primary" type="submit" value="Commenter" 
+                                                style="margin: 10px 0px 0px 0px; width: 100%">';                             
+                                        }
+                                    ?>
                                  </form>
                             </div>
                             <div style="width: 50%;height: auto; float:right;"><b>Commentaires</b>
                                 <div id="container-comments">
-                                <?php 
-                                include "connexion.php";
-                                $statement_comment = $db->prepare("select idComment, C.idMember, idImage, description, date, firstName, lastName from Comments C INNER JOIN Members M ON C.idMember = M.idMember WHERE idImage = ? ORDER BY date DESC");
-                                $statement_comment->bindParam(1, $_GET['id']);
-                                $statement_comment->execute();
-                                while($donnees_comment = $statement_comment->fetch()){
-                                    $date = strtotime($donnees_comment[4]);
-
-                                    echo '<div class="card shadow p-2 my-2" id="c-' . $donnees_comment[0] . '"><div><div class="text-muted">' . date('j F Y', $date) . '</div><br> <div class="py-2">' . $donnees_comment[3] . '</div></div><hr><div>' . $donnees_comment[5] . ' ' . $donnees_comment[6]; 
-                                                            
-                                    if(isset($_SESSION['id']) && ($_SESSION['id'] === $donnees_comment[1] || $_SESSION['username'] === $MemberAlias)) {
-                                         echo "<form action=\"comment-delete-process.php?idComment=" .  $donnees_comment[0] . 
-                                    "&id=" . $_GET['id'] . "\" method=\"post\">";
-                                 
-                                    echo "<input class=\"btn btn-danger\" type=\"submit\" value=\"Supprimer\" style=\"width: 100px; float: right\"></form>";  
-                                    }  
-                                        echo '<br></div></div>';
-                                }
-                                ?>
-
+                                    <?php 
+                                        injectComments($_GET['id']);
+                                    ?>
                             </div>
-
                         </div>
                         
                     </div>

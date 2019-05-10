@@ -56,10 +56,13 @@ if(isset($_GET['id'])) {
                             if(isset($_GET["titre"])){
                                 echo "<div style=\"color: green; text-align: center; width:100%;\">Informations modifiées avec succès</div><br><br>";
                             }?>
-                            <form style="border: solid 1px lightgrey; padding: 10px; width: 100%;"  <?php echo " action=\"image-edit-process.php?id=" . $_GET['id'] . "\" "?> method="post">
-                                Titre <input type="text" class="form-control" name="titre"
-                                <?php echo " value=\"" . $image[2] . "\""?>><br>
-                                Description<textarea type="text" class="form-control" name="description" style=""><?php echo $image[4] ?></textarea><br>
+                            <form style="border: solid 1px lightgrey; padding: 10px; width: 100%;"  
+                                <?php echo " action=\"image-edit-process.php?id=" . $_GET['id'] . "\" "?> method="post">
+                                Titre <input type="text" class="form-control" name="titre" <?php echo " value=\"" . $image[2] . "\""?>
+                                ><br>
+                                Description<textarea type="text" class="form-control" name="description" style="">
+                                    <?php echo $image[4] ?>
+                                </textarea><br>
                                 <input class="btn btn-primary float-right" type="submit" value="Sauvegarder">
                             </form>
                         </div>
