@@ -34,9 +34,13 @@ if(isset($_GET['id'])) {
                                 else{echo "<a class=\"nav-link\" href=\"login.php\">" . "Connexion" . "</a>";} ?>
                         </li>
                         <?php
-                        if(isset( $_SESSION["username"])){
-                            echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
-                        }?>
+                            if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"admin.php\">Admin</a></li>";
+                            }
+                            if(isset( $_SESSION["username"])){
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
+                            }
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -49,7 +53,9 @@ if(isset($_GET['id'])) {
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px; background-color: gainsboro;">
                         <?php
                             echo "<div style=\"width: 100%;height: 298px; text-align:center; line-height: 298px;\">" .
-                            "<img style=\"max-width: 298px;max-height: 298px;\" src='fichiers/" . $_GET['id'] . ".png'  ></div>";
+                            "<a href='./gestimage.php?id=". $_GET['id'] ."'>
+                            <img style=\"max-width: 298px;max-height: 298px;\" src='fichiers/" . $_GET['id'] . ".png'  >
+                            </a></div>";
                         ?>
                         <div class="row" style="margin: 15px -15px;">
                             <?php 
@@ -60,9 +66,7 @@ if(isset($_GET['id'])) {
                                 <?php echo " action=\"image-edit-process.php?id=" . $_GET['id'] . "\" "?> method="post">
                                 Titre <input type="text" class="form-control" name="titre" <?php echo " value=\"" . $image[2] . "\""?>
                                 ><br>
-                                Description<textarea type="text" class="form-control" name="description" style="">
-                                    <?php echo $image[4] ?>
-                                </textarea><br>
+                                Description<textarea type="text" class="form-control" name="description" style=""><?php echo $image[4] ?></textarea><br>
                                 <input class="btn btn-primary float-right" type="submit" value="Sauvegarder">
                             </form>
                         </div>

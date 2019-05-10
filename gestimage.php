@@ -6,7 +6,7 @@
 if(isset($_GET['id'])) {
 
     $image = getImageInfo($_GET['id']);
-    $member = getMemberById($image[0]);
+    $member = getMemberById($image[1]);
 
     $title = $image[2];
     $description = $image[4];
@@ -40,6 +40,9 @@ if(isset($_GET['id'])) {
                            ?>
                         </li>
                         <?php
+                            if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"admin.php\">Admin</a></li>";
+                            }
                             if(isset( $_SESSION["username"])){
                                 echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
                             }
@@ -67,9 +70,13 @@ if(isset($_GET['id'])) {
                                 <?php 
                                     if(isset($_SESSION['id']) && $_SESSION['username'] === $username){
                                         echo "<div style=\"width: 100%; text-align:center;\">
-                                            <a class=\"card-link\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a>";
-                                        echo "<a class=\"card-link\" margin-right: 20px;\" href='./image-edit.php?id=". $_GET['id'] . 
-                                            "'>Modifier</a></div><br>";
+                                            <a class=\"card-link\" href='./image-edit.php?id=". $_GET['id'] . "'>Modifier</a>";
+                                        echo "<a class=\"card-link\" margin-right: 20px;\" href='./image-delete.php?id=". $_GET['id'] . 
+                                            "'>Supprimer</a></div><br>";
+                                    }
+                                    if(isset($_SESSION['id']) && $_SESSION['username'] !== $username && $_SESSION['username'] === "admin"){
+                                        echo "<div style=\"width: 100%; text-align:center;\">
+                                            <a class=\"card-link\" href='./image-delete.php?id=". $_GET['id'] . "'>Supprimer</a></div><br>";
                                     }
                                 ?>
                                 <b> Auteur: </b><?php echo $firstName . " " . $lastName ?> <b>alias</b> <?php echo $username ?><br> 
@@ -91,7 +98,7 @@ if(isset($_GET['id'])) {
                             <div style="width: 50%;height: auto; float:right;"><b>Commentaires</b>
                                 <div id="container-comments">
                                     <?php 
-                                        injectComments($_GET['id']);
+                                        injectComments($_GET['id'], $username);
                                     ?>
                             </div>
                         </div>

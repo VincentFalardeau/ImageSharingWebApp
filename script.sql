@@ -42,3 +42,9 @@ begin
 	select * from Images where idImage = _id;
 end |
 
+delimiter |
+CREATE  PROCEDURE getMembers()
+begin
+	select * from Members;
+end |
+

@@ -90,11 +90,11 @@
 
     function getMemberById($id){
         $member = null;
-         try{
+        try{
             include "connexion.php";
             $stm = $db->prepare("call getMemberById(?)");
             $stm->bindParam(1, $_id);
-            $_id = $id;;
+            $_id = $id;
             $stm->execute();
             $member = $stm->fetch();
             $db = null;
@@ -103,24 +103,29 @@
     }
 
     function injectAllMembers($keyword){
-        include "connexion.php";
-        $statement = $db->prepare("select * from Members where idMember != ?");
-                                $statement->bindParam(1, $_id);
-                                $_id = $_SESSION['id'];
-                                $statement->execute();
-                                while($donnees = $statement->fetch()){
-                                    if($_POST["keyword"] === "" || (strpos($donnees[1], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false) || (strpos($donnees[4], $_POST["keyword"]) !== false)){
-                                        echo "<div class=\"col-4\" style=\"margin-bottom:20px;\">" . 
-                                        "<div class=\"card\">" . 
-                                        "<div class=\"card-body shadow-sm\" style=\"padding: 10px;height: 100px; text-align:center; background-color: gainsboro;\">" .
-                                        "<div style=\"width:100%;\">" . $donnees[3] . " " . $donnees[4] . " <b>alias</b> " . $donnees[1] . "</div>";
-                                        
-                                        echo "<a class=\"card-link\"href='./pwd-generate-process.php?id=". $donnees[0] . "'>Générer un mot de passe</a>" .
-                                            "<a class=\"card-link\" href='./account-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
-                                        if(isset($_GET['pwd']) && isset($_GET['pwdId']) && $_GET['pwdId'] === $donnees[0]){
-                                            echo "<br><b style=\"color:green\">Nouveau mot de passe: \"1\" </b>";
-                                        }
-                                        echo "</div></div></div>";
-                                    }
+        try{
+            include "connexion.php";
+            $statement = $db->prepare("call getMembers()");
+            $statement->execute();
+            while($donnees = $statement->fetch()){
+                if($donnees[1] !== "admin" && ($keyword === "" || 
+                    (strpos($donnees[1], $keyword) !== false) || 
+                    (strpos($donnees[3], $keyword) !== false) || 
+                    (strpos($donnees[4], $keyword) !== false))){
+                    echo "<div class=\"col-4\" style=\"margin-bottom:20px;\">" . 
+                    "<div class=\"card\">" . 
+                    "<div class=\"card-body shadow-sm\" style=\"padding: 10px;height: 100px; text-align:center; background-color: gainsboro;\">" .
+                    "<div style=\"width:100%;\">" . $donnees[3] . " " . $donnees[4] . " <b>alias</b> " . $donnees[1] . "</div>";
+                                            
+                    echo "<a class=\"card-link\"href='./pwd-generate-process.php?id=". $donnees[0] . "'>Générer un mot de passe</a>" .
+                        "<a class=\"card-link\" href='./account-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
+                    if(isset($_GET['pwd']) && isset($_GET['pwdId']) && $_GET['pwdId'] === $donnees[0]){
+                        echo "<br><b style=\"color:green\">Nouveau mot de passe: \"1\" </b>";
+                    }
+                    echo "</div></div></div>";
+                }
+            }
+            $db = null;
+        }catch(PDOException $e){}
     }
 ?>
