@@ -21,11 +21,11 @@
                     "<div style=\"width:100%;\">";
                     echo getCommentCount($donnees[0]) . " commentaire(s)</div>";
                     if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
-                        echo "<a class=\"card-link\" href='./image-edit.php?id=". $donnees[0] ."'>Modifier</a>";
-                        echo "<a class=\"card-link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
+                        echo "<a class=\"card-link link\" href='./image-edit.php?id=". $donnees[0] ."'>Modifier</a>";
+                        echo "<a class=\"card-link link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
                     }
                     else if(isset($_SESSION["id"]) && $_SESSION["id"] !== $donnees[1] && $_SESSION["username"] === "admin"){
-                        echo "<a class=\"card-link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
+                        echo "<a class=\"card-link link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
                     }
                     echo "</div></div></div>";
                 }

@@ -117,8 +117,8 @@
                     "<div class=\"card-body shadow-sm\" style=\"padding: 10px;height: 100px; text-align:center; background-color: gainsboro;\">" .
                     "<div style=\"width:100%;\">" . $donnees[3] . " " . $donnees[4] . " <b>alias</b> " . $donnees[1] . "</div>";
                                             
-                    echo "<a class=\"card-link\"href='./pwd-generate-process.php?id=". $donnees[0] . "'>Générer un mot de passe</a>" .
-                        "<a class=\"card-link\" href='./account-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
+                    echo "<a class=\"card-link link\"href='./pwd-generate-process.php?id=". $donnees[0] . "'>Générer un mot de passe</a>" .
+                        "<a class=\"card-link link\" href='./account-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
                     if(isset($_GET['pwd']) && isset($_GET['pwdId']) && $_GET['pwdId'] === $donnees[0]){
                         echo "<br><b style=\"color:green\">Nouveau mot de passe: \"1\" </b>";
                     }

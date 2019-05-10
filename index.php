@@ -7,10 +7,10 @@
 </head>
 
 <body>
-    <div>
+    <div >
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container">
-                <a class="navbar-brand" href="index.php">Galerie d'images</a>
+                <a class="navbar-brand link" href="index.php">Galerie d'images</a>
                 <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -22,19 +22,20 @@
                         <li class="nav-item" role="presentation">
 							<?php
 								if(isset($_SESSION["id"])){
-									echo "<a class=\"nav-link\" href=\"profile.php\">" . $_SESSION["username"] . "</a>";
+									echo "<a class=\"nav-link link\" href=\"profile.php\">" . $_SESSION["username"] . "</a>";
 								}
 								else{
-									echo "<a class=\"nav-link\" href=\"login.php\">" . "Connexion" . "</a>";
+									echo "<a class=\"nav-link link\" href=\"login.php\">" . "Connexion" . "</a>";
+                                    echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link link\" href=\"inscrip.php\">" . "S'inscrire" . "</a></li>";
 								}		    
 							?>
                         </li>
 						<?php
                             if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
-                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"admin.php\">Admin</a></li>";
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link link\" href=\"admin.php\">Admin</a></li>";
                             }
 						    if(isset( $_SESSION["username"])){
-							echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"logout.php\">Déconnexion</a></li>";
+							echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link link\" href=\"logout.php\">Déconnexion</a></li>";
 						    }
 						?>
                     </ul>

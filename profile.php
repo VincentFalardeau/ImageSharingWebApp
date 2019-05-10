@@ -10,7 +10,7 @@
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
             <div class="container">
-                <a class="navbar-brand" href="index.php">Galerie d'images</a>
+                <a class="navbar-brand link" href="index.php">Galerie d'images</a>
                 <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -21,15 +21,15 @@
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="profile-delete.php">Supprimer mon compte</a>
+                            <a class="nav-link link" href="profile-delete.php">Supprimer mon compte</a>
                         </li>
                         <?php
                             if(isset( $_SESSION["username"]) && $_SESSION['username'] === "admin"){
-                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"admin.php\">Admin</a></li>";
+                                echo "<li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link link\" href=\"admin.php\">Admin</a></li>";
                             }
                         ?>
 						<li class="nav-item" role="presentation">
-                            <a class="nav-link" href="logout.php">Déconnexion</a>
+                            <a class="nav-link link" href="logout.php">Déconnexion</a>
                         </li>
                     </ul>
                 </div>

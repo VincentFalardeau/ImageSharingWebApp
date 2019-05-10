@@ -1,7 +1,10 @@
-body{
-	background-color: rgb(244,245,247);
+.link{
+	color: blue !important;
 }
-
+.link:hover{
+	color: darkblue !important;
+	text-decoration: underline;
+}
 .overlay{
 	position: absolute;
 	top: 0;
