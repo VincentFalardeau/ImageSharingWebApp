@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php session_start();?>
+<?php include "user-functions.php";?>
 <html>
 <head>
     <?php $pageTitle=$_SESSION["username"]; include "head.php"; ?>
@@ -39,45 +40,26 @@
                 <div class="card shadow" style="width: 420px;margin: auto;">
                     <div class="card-body" style="margin: auto;width: 425px;padding: 40px; text-align: center;">
                         <?php
-                            include "connexion.php";
                             if(isset($_POST["email"]) && $_POST["email"] !== ""){
                                 if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) !== false){
-                                    $statement = $db->prepare("update Members set email = ? where idMember = ?");
-                                    $statement->bindParam(1, $_email);
-                                    $statement->bindParam(2, $_idMember);
-                                    $_email = $_POST["email"];
-                                    $_idMember = $_SESSION["id"];
-                                    $statement->execute();
-									echo "<strong style=\"color: green;\">Courriel changé avec succès</strong><br><br>";
+                                    updateEmail($_SESSION['id'], $_POST["email"]);
+                                    echo "<strong style=\"color: green;\">Courriel changé avec succès</strong><br><br>";
                                 }
                                 else{
                                     echo "<strong style=\"color: red;\">Le courriel est de format invalide</strong><br><br>";
                                 }
                             }
-							
 							if(isset($_POST["password"]) && $_POST["password"] !== ""){
 								if($_POST["password"] !== $_POST["confirm-password"]){
 									echo "<strong style=\"color: red;\">La confirmation ne correspond pas au mot de passe</strong><br><br>";
 								}
 								else{
-                                    $statement = $db->prepare("update Members set password = ? where idMember = ?");
-                                    $statement->bindParam(1, $_password);
-                                    $statement->bindParam(2, $_idMember);
-                                    $_password = $_POST["password"];
-                                    $_idMember = $_SESSION["id"];
-                                    $statement->execute();
-									echo "<strong style=\"color: green;\">Mot de passe changé avec succès</strong><br><br>";
+                                    updatePassword($_SESSION['id'], $_POST["password"]);
+                                    echo "<strong style=\"color: green;\">Mot de passe changé avec succès</strong><br><br>";
                                 }
                             }
 
-                            $statement = $db->prepare("select * from Members where idMember = ?");
-                            $statement->bindParam(1, $_idMember);
-                            $_idMember = $_SESSION["id"];
-                            $statement->execute();
-
-                            while($donnees = $statement->fetch()){
-                                $member = array($donnees[0], $donnees[1], $donnees[2], $donnees[3], $donnees[4], $donnees[5]);
-                            }
+                            $member = getMemberById($_SESSION["id"]);
                         ?>
                         <h4 class="card-title">
                             <?php echo $member[3] . " " . $member[4] ;?>
@@ -86,7 +68,7 @@
                         <div class="row" style="margin: 15px -15px;">
                             Courriel<br>
                             <form style="border: solid 1px lightgrey; padding: 10px;"  action="profile.php" method="post">
-                                <?php echo $member[5] . "<br>";?><br>
+                                <?php echo $member[5]?><br><br>
                                 <input type="text" class="form-control" name="email" style="width: 250px; float: left; margin-right: 15px;">
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>
@@ -94,8 +76,10 @@
                         <div class="row" style="margin: 15px -15px;">
                             Mot de passe<br>
                             <form  style="border: solid 1px lightgrey; padding: 10px;"  action="profile.php" method="post">
-                                <input type="password" class="form-control" name="password" style="width: 250px; float: left; margin-right: 15px;" placeholder="Nouveau mot de passe">
-                                <input type="password" class="form-control" name="confirm-password" style="width: 250px; float: left; margin-right: 15px;"placeholder="Confirmation">
+                                <input type="password" class="form-control" name="password" 
+                                style="width: 250px; float: left; margin-right: 15px;" placeholder="Nouveau mot de passe">
+                                <input type="password" class="form-control" name="confirm-password" 
+                                style="width: 250px; float: left; margin-right: 15px;"placeholder="Confirmation">
                                 <input class="btn btn-primary float-right" type="submit" value="Modifier">
                             </form>
                         </div>

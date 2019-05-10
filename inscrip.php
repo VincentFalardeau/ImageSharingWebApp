@@ -38,8 +38,7 @@
 								<?php 
 									if(isset($_POST['username']) && $_POST['username'] != "") {
                                         echo "<input type=\"text\" class=\"form-control\" name=\"username\" value=\"" . $_POST['username'] . "\">";
-										$validUserName = userNameExists($_POST['username']);
-                                        if($validUserName !== null){
+                                        if(userNameExists($_POST['username']) !== null){
                                             echo "<strong style=\"color: red;\">Ce nom d'utilisateur existe deja</strong><br>";
                                         }
                                     }
@@ -134,28 +133,15 @@
 							</div>
 							<?php
 								include "connexion.php";
-								if(isset($_POST['username']) && isset($_POST['password']) && 
-									isset($_POST['firstname']) && isset($_POST['lastname']) && 
-									isset($_POST['email']) && 
-									$_POST['username'] !== '' && $_POST['password'] !== '' && 
-									$_POST['firstname'] !== '' && $_POST['lastname'] !== '' && 
-									$_POST['email'] !== '' && 
-									$_POST['passwordconfirmation'] === $_POST['password']){
-									$stm = $db->prepare("insert into Members values(null, ?, ?, ?, ?, ?)");
-									$stm->bindParam(1, $param_username);
-									$stm->bindParam(2, $param_password);
-									$stm->bindParam(3, $param_firstName);
-									$stm->bindParam(4, $param_lastName);
-									$stm->bindParam(5, $param_email);
-									$param_username=$_POST['username'];
-									$param_password=$_POST['password'];
-									$param_firstName=$_POST['firstname'];
-									$param_lastName=$_POST['lastname'];
-									$param_email=$_POST['email'];
-									$stm->execute();
-									
+								if( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['firstname']) && 
+									isset($_POST['lastname']) && isset($_POST['email']) && 
+									$_POST['username'] !== '' && $_POST['password'] !== '' && $_POST['firstname'] !== '' && 
+									$_POST['lastname'] !== '' && $_POST['email'] !== '' && $_POST['passwordconfirmation'] === $_POST['password'] &&
+									userNameExists($_POST['username']) === null){
+
+									subscribeUser($_POST['username'], $_POST['password'], $_POST['firstname'], $_POST['lastname'], $_POST['email']);
 									logUser($_POST['username'], $_POST['password']);
-							}
+								}
 							?>
                         <button class="btn btn-primary float-right" type="submit" style="margin: 10px 0px 0px 0px;">
                         S'inscrire

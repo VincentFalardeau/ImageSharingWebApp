@@ -35,8 +35,7 @@
                                 <?php 
                                     if(isset($_POST['username']) && $_POST['username'] != "") {
                                         echo "<input type=\"text\" class=\"form-control\" name=\"username\" value=\"" . $_POST['username'] . "\">";
-                                        $validUserName = userNameExists($_POST['username']);
-                                        if($validUserName === null){
+                                        if(userNameExists($_POST['username']) === null){
                                             echo "<strong style=\"color: red;\">Utilisateur inexistant</strong><br>";
                                         }
                                     }
@@ -52,7 +51,7 @@
                                     if(isset($_POST['username']) && isset($_POST['password'])){
                                         logUser($_POST['username'], $_POST['password']);
                                     }
-                                    if(isset($validUserName) && $validUserName !== null){
+                                    if(isset($_POST['username']) && userNameExists($_POST['username']) !== null){
                                         echo "<strong style=\"color: red;\">Mot de passe invalide</strong><br>";
                                     }
                                 ?>
