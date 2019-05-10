@@ -21,7 +21,7 @@
                         <li class="nav-item" role="presentation"></li>
                         <li class="nav-item" role="presentation">
 							<?php
-								if(isset($_SESSION["username"])){
+								if(isset($_SESSION["id"])){
 									echo "<a class=\"nav-link\" href=\"profile.php\">" . $_SESSION["username"] . "</a>";
 								}
 								else{
@@ -69,7 +69,7 @@
                                     <div class="card">
                                         <div class="card-body shadow-sm" style="height: 400px; background-color: gainsboro;">
                                             <div style="text-align: center;"><strong>Ajouter une image</strong></div>
-                                        <form action="./image_upload.php" method="post" enctype="multipart/form-data">
+                                        <form action="./image-add-process.php" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label >Titre</label>
                                                 <input type="text" class="form-control" name="ImageTitle"></br>

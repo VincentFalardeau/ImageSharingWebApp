@@ -18,7 +18,7 @@
                 "<div style=\"width:100%; text-align:left; height: 120px;background-color: white;\">" . $donnees[3] . "</div>" . 
                 "<div style=\"width:100%;\">Auteur: " . $donnees[4] . " (" . explode(" ", $donnees[5])[0] . ")" . "</div>" . 
                 "<div style=\"width:100%;\">";
-                echo getCommentCount($donnees[0]) . " commentaires</div>";
+                echo getCommentCount($donnees[0]) . " commentaire(s)</div>";
                 if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
                     echo "<a class=\"card-link\"href='./image-edit.php?id=". $donnees[0] . "'>Modifier</a>" .
                     "<a class=\"card-link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
@@ -41,5 +41,19 @@
             $db = null;
         }catch(PDOException $e){}
         return $count[0];
+    }
+
+    function getImageInfo($id){
+        $img = null;
+        try{
+            include "connexion.php";
+            $statement = $db->prepare("call getImageInfo(?)");
+            $statement->bindParam(1, $_id);
+            $_id = $id;
+            $statement->execute();
+            $img = $statement->fetch();
+            $db = null;
+        }catch(PDOException $e){}
+        return $img;
     }
 ?>

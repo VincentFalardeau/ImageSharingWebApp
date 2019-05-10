@@ -1,22 +1,17 @@
 <!DOCTYPE html>
+<?php include "user-functions.php"; include "image-functions.php"?>
 <html>
 <?php 
 session_start();
 include "connexion.php";
 
 if(isset($_GET['id'])) {
-    $statement = $db->prepare("select titre, description from Images WHERE idImage = ?");
-    $statement->bindParam(1, $_GET['id']);
-    $statement->execute();
-    while($donnees = $statement->fetch()){
-        $titre = $donnees[0];
-        $description = $donnees[1];
-    }
+    $image = getImageInfo($_GET['id']);
 }
 ?>
 
 <head>
-    <?php $pageTitle=$titre; include "head.php"; ?>   
+    <?php $pageTitle=$image[2]; include "head.php"; ?>   
 </head>
 <body>
     <div>
@@ -63,9 +58,9 @@ if(isset($_GET['id'])) {
                             }?>
                             <form style="border: solid 1px lightgrey; padding: 10px; width: 100%;"  <?php echo " action=\"image-edit-process.php?id=" . $_GET['id'] . "\" "?> method="post">
                                 Titre <input type="text" class="form-control" name="titre"
-                                <?php echo " value=\"" . $titre . "\""?>><br>
-                                Description<textarea type="text" class="form-control" name="description" style=""><?php echo $description ?></textarea><br>
-                                <input class="btn btn-primary float-right" type="submit" value="Modifier">
+                                <?php echo " value=\"" . $image[2] . "\""?>><br>
+                                Description<textarea type="text" class="form-control" name="description" style=""><?php echo $image[4] ?></textarea><br>
+                                <input class="btn btn-primary float-right" type="submit" value="Sauvegarder">
                             </form>
                         </div>
                     </div>
