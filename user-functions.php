@@ -1,6 +1,6 @@
 <?php
 
-     function logUser($username, $password){
+    function logUser($username, $password){
         $user = authentifyUser($username, $password);
         if($user[0] !== null){
             session_start();

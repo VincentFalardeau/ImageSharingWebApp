@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php session_start(); ?>
+<?php include "user-functions.php"; include "image-functions.php"?>
 <html>
 <head>
     <?php $pageTitle="Galerie"; include "head.php"; ?>
@@ -62,34 +63,7 @@
                         </h4>
                         <hr>
                         <div class="row" style="margin: 15px -15px;">
-							<?php
-								include "connexion.php";
-								$statement = $db->prepare("select idImage, i.idMember, titre, description, alias, date from Images i inner join Members m on i.idMember = m.idMember order by date desc;");
-								$statement->execute();
-								while($donnees = $statement->fetch()){
-                                    if($_POST["keyword"] === "" || (strpos($donnees[2], $_POST["keyword"]) !== false) || (strpos($donnees[3], $_POST["keyword"]) !== false)){
-    									echo "<div class=\"col-4\" style=\"margin-bottom:20px;\">" . 
-                                        "<div class=\"card\">" . 
-                                        "<div class=\"card-body shadow-sm\" style=\"padding: 10px;height: 400px; text-align:center; background-color: gainsboro;\">" .
-                                        "<div style=\"width:100%; height: 150px; line-height: 150px; margin-bottom:20px;\">" .
-                                        "<a href='./gestimage.php?id=". $donnees[0] ."'>".
-                                        "<img style=\"max-width: 200px; max-height: 150px;\" src='fichiers/" . $donnees[0] . ".png'>" . "</a></div>".
-                                        "<div style=\"width:100%;\">" . $donnees[2] . "</div>" .
-                                        "<div style=\"width:100%; text-align:left; height: 120px;background-color: white;\">" . $donnees[3] . "</div>" . "<div style=\"width:100%;\">Auteur: " . $donnees[4] . " (" . explode(" ", $donnees[5])[0] . ")" . "</div>" . "<div style=\"width:100%;\">";
-                                        $stm = $db->prepare("select count(*) from Comments where idImage = ?");
-                                        $stm->bindParam(1, $_id);
-                                        $_id = $donnees[0];
-                                        $stm->execute();
-                                        $nb_com = $stm->fetch();
-                                        echo $nb_com[0] . " commentaires</div>";
-    									if(isset($_SESSION["id"]) && $_SESSION["id"] === $donnees[1]){
-    										echo "<a class=\"card-link\"href='./image-edit.php?id=". $donnees[0] . "'>Modifier</a>" .
-                                            "<a class=\"card-link\" href='./image-delete.php?id=". $donnees[0] ."'>Supprimer</a>";
-    									} 
-    									echo "</div></div></div>";
-                                    }
-								}
-                            ?>
+							<?php injectGalleryContent($_POST['keyword']);?>
                             <?php  if(isset($_SESSION["id"])) : ?>
                                 <div class="col-4">
                                     <div class="card">
